@@ -34,7 +34,7 @@ Program :: ~Program ()
     clear ();
 }
 
-bool	Program :: loadProgram ( const char * fileName )
+bool	Program :: loadProgram ( const string& fileName )
 {
 	Data data ( fileName );
 	
@@ -126,6 +126,14 @@ bool	Program :: loadProgram ( Data * data )
 	
 	return relink ();
 }
+
+bool	Program :: loadProgramFromString ( const string& source )
+{
+	Data	data ( (void *)source.c_str (), source.length () + 1 );		// XXX - m.b. strdup ?
+	
+	return loadProgram ( &data );
+}
+
 						// load source and compile it into existing shader
 bool    Program :: loadShader ( GLuint shader, Data * data )
 {

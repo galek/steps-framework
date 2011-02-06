@@ -22,7 +22,7 @@ float	randGauss ( float m, float sigma )
   // from http://www.taygeta.com/random/gaussian.html
   // Algorithm by Dr. Everett (Skip) Carter, Jr.
 
-	float x1, x2, w, y1, y2;
+	float x1, x2, w;
  
 	do 
 	{

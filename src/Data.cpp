@@ -18,12 +18,7 @@
     #define	O_BINARY	0
 #endif
 
-#ifdef	MACOSX
-	#include	<stdlib.h>
-#else
 #include	<malloc.h>
-#endif
-
 #include	<memory.h>
 #include	<string.h>
 #include	"Data.h"
