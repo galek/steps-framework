@@ -40,8 +40,9 @@ public:
     ~Program ();
 
 												// load all shaders separated by -- shader-type
-	bool	loadProgram ( const char * fileName );
-	bool	loadProgram ( Data * data );
+	bool	loadProgram           ( const string& fileName );
+	bool	loadProgram           ( Data * data );
+	bool	loadProgramFromString ( const string& source );
 	
 												// load and compile a single shader, no linking
 	bool	loadShaderOfType ( Data * data, GLenum type );

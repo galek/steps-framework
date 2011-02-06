@@ -26,7 +26,7 @@ public:
 		return id != 0;
 	}
 	
-	GLenum 	getId () const
+	GLuint 	getId () const
 	{
 		return id;
 	}

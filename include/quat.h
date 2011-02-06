@@ -27,6 +27,16 @@ public:							// make all members public
 	quat ( const mat3& mat );
 	quat ( float mat [3][3]    );
 
+	float	lengthSq () const
+	{
+		return x * x + y * y + z * z + w * w;
+	}
+	
+	float	length () const
+	{
+		return sqrtf ( x * x + y * y + z * z + w * w );
+	}
+	
 	quat operator + () const
 	{
 		return *this;
@@ -34,7 +44,7 @@ public:							// make all members public
 
 	quat operator - () const
 	{
-		return quat ( -x, -y, -z, -w );
+		return quat ( -x, -y, -z, w );
 	}
 
 	quat& conj ()
@@ -75,6 +85,23 @@ public:							// make all members public
 		return *this;
 	}
 
+	quat&	inverse () const
+	{
+		return quat ( -x, -y, -z, w ) / lengthSq ();
+	}
+	
+	quad&	invert ()
+	{
+		float	ls = 1.0f / lengthSq ();
+		
+		x *= -ls;
+		y *= -ls;
+		z *= -ls;
+		w *=  ls;
+		
+		return *this;
+	}
+	
 	vec3	rotate         ( const vec3& v ) const;
 	quat&	normalize      ();
 	quat&	initWithAngles ( float yaw, float pitch, float roll );
@@ -93,6 +120,16 @@ inline	quat operator - ( const quat& q1, const quat& q2 )
 	return quat ( q1.x - q2.x, q1.y - q2.y, q1.z - q2.z, q1.w - q2.w );
 }
 
+inline	quat operator * ( const quat& q1, float f )
+{
+	return quat ( q1.x * f, q1.y * f, q1.z * f, q1.w * f );
+}
+
+inline	quat operator / ( const quat& q1, float f )
+{
+	return quat ( q1.x / f, q1.y / f, q1.z / f, q1.w / f );
+}
+
 inline	quat operator * ( const quat& q1, const quat& q2 )
 {
 	return quat ( q1.y * q2.z - q1.z * q2.y + q1.w * q2.x + q1.x * q2.w,
@@ -104,6 +141,13 @@ inline	quat operator * ( const quat& q1, const quat& q2 )
 inline float dot ( const quat& q1, const quat& q2 )
 {
 	return q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+}
+
+inline quat normalize ( const quat& q )
+{
+	quat	qt ( q );
+	
+	return qt.normalize ();
 }
 
 quat	slerp ( const quat& q1, const quat& q2, float t );
