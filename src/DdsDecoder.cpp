@@ -14,6 +14,8 @@
 #include    "DdsDefs.h"
 #include	"TexImage.h"
 
+extern	bool	doDdsFlip;
+
 const unsigned long FOURCC_DXT1 = 0x31545844; 		//(MAKEFOURCC('D','X','T','1'))
 const unsigned long FOURCC_DXT3 = 0x33545844; 		//(MAKEFOURCC('D','X','T','3'))
 const unsigned long FOURCC_DXT5 = 0x35545844; 		//(MAKEFOURCC('D','X','T','5'))
@@ -210,6 +212,9 @@ void flipBlocksDxtc5 ( GLubyte * ptr, unsigned int numBlocks )
 
 void flipDdsSurface ( byte * surf, int width, int height, int depth, bool compressed, int format, int elementSize )
 {
+	if ( !doDdsFlip )
+		return;
+		
     depth = depth ? depth : 1;
 
     if ( !compressed ) 
@@ -261,6 +266,11 @@ void flipDdsSurface ( byte * surf, int width, int height, int depth, bool compre
                 flipBlocks = &flipBlocksDxtc5; 
                 break;
 				
+			case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+                blockSize  = 8;
+                flipBlocks = &flipBlocksDxtc1; 
+                break;
+
             default:
                 return;
         }
@@ -429,7 +439,6 @@ TexImage * DdsDecoder :: loadCubemap ( Data * data, const DDS_HEADER& ddsd )
 	};
 
     int 	mipMapsCount = ddsd.dwMipMapCount;
-//    char    filecode [4];
     int     factor;
     int     bufferSize;
     int     format;

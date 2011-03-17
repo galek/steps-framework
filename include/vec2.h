@@ -22,6 +22,21 @@ public:
 	vec2 ( const vec2& v  ) : x ( v.x ), y ( v.y ) {}
 	explicit vec2 ( const float * v ) : x ( v [0] ), y ( v [0] ) {}
 
+	bool	operator == ( const vec2& v ) const
+	{
+		return x == v.x && y == v.y;
+	}
+	
+	bool	operator != ( const vec2& v ) const
+	{
+		return x != v.x || y != v.y;
+	}
+	
+	bool	equalWithTolerance ( const vec2& v, float eps = EPS )
+	{
+		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps;
+	}
+	
 	vec2& operator = ( const vec2& v )
 	{
 		x = v.x;
@@ -91,16 +106,6 @@ public:
 	float operator [] ( int index ) const
 	{
 		return * ( index + &x );
-	}
-
-	int	operator == ( const vec2& v ) const
-	{
-		return x == v.x && y == v.y;
-	}
-
-	int	operator != ( const vec2& v ) const
-	{
-		return x != v.x || y != v.y;
 	}
 
 	operator float * ()

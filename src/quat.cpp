@@ -257,3 +257,37 @@ quat	slerp ( const quat& q1, const quat& q2, float t )
 				  scale1 * q1.w + scale2 * q2.w );
 }
 
+quat	quat :: exp () const
+{
+	float	a    = (float) sqrt ( x * x + y * y + z * z );		// v.length ();
+	float	sina = (float)sin ( a );
+	float	cosa = (float)cos ( a );
+	quat	res;
+
+	res.w = cosa;
+	if ( a > EPS )
+	{
+		sina /= a;
+		
+		res.x = sina * x;
+		res.y = sina * y;
+		res.z = sina * z;
+	} 
+	else 
+	{
+		res.x = 
+		res.y = 
+		res.z = 0;
+	}
+	
+	return res * ::exp ( w );
+}
+
+quat	quat :: log () const
+{
+	float l    = length ();
+	float vn   = (float) sqrt ( x * x + y * y + z * z );		// v.length ();
+	float a    = (float)acos ( w / l ) / vn;
+	
+	return quat ( x * a, y * a, z * a, ::log ( l ) );
+}

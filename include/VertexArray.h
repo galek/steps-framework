@@ -29,6 +29,11 @@ public:
 		return glIsVertexArray ( id );
 	}
 	
+	GLuint 	getId () const
+	{
+		return id;
+	}
+	
 	void	create ()
 	{
 		glGenVertexArrays ( 1, &id );

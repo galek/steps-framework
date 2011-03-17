@@ -56,6 +56,16 @@ public:							// make all members public
 		return *this;
 	}
 
+	bool	operator == ( const quat& q ) const
+	{
+		return x == q.x && y == q.y && z == q.z && w == q.w;
+	}
+	
+	bool	operator != ( const quat& q ) const
+	{
+		return x != q.x || y != q.y || z != q.z || w != q.w;
+	}
+	
 	quat& operator += ( const quat& q )
 	{
 		x += q.x;
@@ -85,12 +95,14 @@ public:							// make all members public
 		return *this;
 	}
 
-	quat&	inverse () const
+	quat	inverse () const
 	{
-		return quat ( -x, -y, -z, w ) / lengthSq ();
+		float	l2 = lengthSq ();
+		
+		return quat ( -x / l2, -y / l2, -z /l2, w / l2 );
 	}
 	
-	quad&	invert ()
+	quat&	invert ()
 	{
 		float	ls = 1.0f / lengthSq ();
 		
@@ -106,8 +118,9 @@ public:							// make all members public
 	quat&	normalize      ();
 	quat&	initWithAngles ( float yaw, float pitch, float roll );
 	void	getMatrix      ( mat3& m ) const;
-	void	getMatrix      ( mat4& m ) const;		
-
+	void	getMatrix      ( mat4& m ) const;	
+	quat	exp            () const;
+	quat	log            () const;
 };
 
 inline	quat operator + ( const quat& q1, const quat& q2 )

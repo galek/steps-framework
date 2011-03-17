@@ -28,5 +28,7 @@ bool		addSearchPath ( const string& path );
 							// add zip file source
 bool		addZipFileSystem ( const string& fileName );
 
+extern	bool	doDdsFlip;			// whether loader should vertically flip dds image
+//extern	bool	doNotDdsFlip;	// whether loader should vertically flip not-dds (bmp/png/tga/jpg) images
 
 #endif

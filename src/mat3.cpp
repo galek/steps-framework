@@ -283,7 +283,7 @@ mat3 operator / ( const mat3& a, float f )
 vec3 operator * ( const mat3& a, const vec3& b )
 {
 	return vec3 ( a.m [0]*b.x + a.m [1]*b.y + a.m [2]*b.z,
-			      a.m [3]*b.x + a.m [3]*b.y + a.m [5]*b.z,
+			      a.m [3]*b.x + a.m [4]*b.y + a.m [5]*b.z,
 		          a.m [6]*b.x + a.m [7]*b.y + a.m [8]*b.z );
 }
 

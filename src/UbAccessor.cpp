@@ -4,6 +4,7 @@
 // Author: Alexey V. Boreskov, <steps3d@narod.ru>, <steps3s@gmail.com>
 //
 
+#include	<stdlib.h>
 #include	"UbAccessor.h"
 #include	"Program.h"
 #include	"VertexBuffer.h"

@@ -22,6 +22,21 @@ public:
 	vec3 ( const vec3& v ) : x ( v.x ), y ( v.y ), z ( v.z ) {}
 	explicit vec3 ( const float * v ) : x ( v [0] ), y ( v [1] ), z ( v [2] ) {}
 
+	bool	operator == ( const vec3& v ) const
+	{
+		return x == v.x && y == v.y && z == v.z;
+	}
+	
+	bool	operator != ( const vec3& v ) const
+	{
+		return x != v.x || y != v.y || z != v.z;
+	}
+	
+	bool	equalWithTolerance ( const vec3& v, float eps = EPS )
+	{
+		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps && fabs ( z - v.z ) < eps;
+	}
+	
 	vec3& operator = ( const vec3& v )
 	{
 		x = v.x;
@@ -98,16 +113,6 @@ public:
 	float operator [] ( int index ) const
 	{
 		return * ( index + &x );
-	}
-
-	int	operator == ( const vec3& v ) const
-	{
-		return x == v.x && y == v.y && z == v.z;
-	}
-
-	int	operator != ( const vec3& v ) const
-	{
-		return x != v.x || y != v.y || z != v.z;
 	}
 
 	operator float * ()

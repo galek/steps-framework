@@ -128,6 +128,13 @@ public:
 		maxPoint.y -= delta;
 		maxPoint.z -= delta;
 	}
+	
+	float volume () const
+	{
+		vec3	size = maxPoint - minPoint;
+
+		return size.x * size.y * size.z;
+	}
 /*
 									// distance from point along given direction to this box
 	float	getDistanceTo ( const vec3& from, const vec3& dir ) const

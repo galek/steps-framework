@@ -22,6 +22,21 @@ public:
 	vec4 ( const vec4& v ) : x ( v.x ), y ( v.y ), z ( v.z ), w ( v.w ) {}
 	explicit vec4 ( const float * v ) : x ( v [0] ), y ( v [1] ), z ( v [2] ), w ( v [3] ) {}
 
+	bool	operator == ( const vec4& v ) const
+	{
+		return x == v.x && y == v.y && z == v.z && w == v.w;
+	}
+	
+	bool	operator != ( const vec4& v ) const
+	{
+		return x != v.x || y != v.y || z != v.z || w != v.w;
+	}
+	
+	bool	equalWithTolerance ( const vec4& v, float eps = EPS )
+	{
+		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps && fabs ( z - v.z ) < eps && fabs ( w - v.w ) < eps;
+	}
+	
 	vec4& operator = ( const vec4& v )
 	{
 		x = v.x;
@@ -105,16 +120,6 @@ public:
 	float operator [] ( int index ) const
 	{
 		return * ( index + &x );
-	}
-
-	int	operator == ( const vec4& v ) const
-	{
-		return x == v.x && y == v.y && z == v.z && w == v.w;
-	}
-
-	int	operator != ( const vec4& v ) const
-	{
-		return x != v.x || y != v.y || z != v.z || w != v.w;
 	}
 
 	operator float * ()
