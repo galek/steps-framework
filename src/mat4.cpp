@@ -62,6 +62,26 @@ mat4 :: mat4 ( const vec4& a )
 	m [15] = a.w;
 }
 
+mat4 :: mat4 ( const mat3& a )
+{
+	m [ 0] = a.m [0];
+	m [ 1] = a.m [1];
+	m [ 2] = a.m [2];
+	m [ 3] = 0;
+	m [ 4] = a.m [3];
+	m [ 5] = a.m [4];
+	m [ 6] = a.m [5];
+	m [ 7] = 0;
+	m [ 8] = a.m [6];
+	m [ 9] = a.m [7];
+	m [10] = a.m [8];
+	m [11] = 0;
+	m [12] = a.m [9];
+	m [13] = a.m [10];
+	m [14] = a.m [11];
+	m [15] = 1;
+}
+
 mat4 :: mat4 ( const mat4& a )
 {
 	memcpy ( m, a.m, sizeof ( m ) );
@@ -558,8 +578,8 @@ mat4 mat4 :: rotateX ( float angle )
 	float	sine   = (float)sin ( angle );
 
 	a.m [ 5] = cosine;
-	a.m [ 6] = -sine;
-	a.m [ 9] = sine;
+	a.m [ 6] = sine;
+	a.m [ 9] = -sine;
 	a.m [10] = cosine;
 
 	return a;
@@ -570,9 +590,9 @@ mat4 mat4 :: rotateY ( float angle )
 	float		cosine = (float)cos ( angle );
 	float		sine   = (float)sin ( angle );
 
-	return mat4 ( cosine, 0, sine,   0,
+	return mat4 ( cosine, 0, -sine,   0,
 	              0,      1, 0,      0,
-				  -sine,  0, cosine, 0,
+				  sine,  0, cosine, 0,
 				  0,      0, 0,      1 );
 }
 
@@ -581,8 +601,8 @@ mat4 mat4 :: rotateZ ( float angle )
 	float		cosine = (float)cos ( angle );
 	float		sine   = (float)sin ( angle );
 
-	return mat4 ( cosine, -sine,  0, 0,
-	              sine,   cosine, 0, 0, 
+	return mat4 ( cosine, sine,  0, 0,
+	              -sine,   cosine, 0, 0, 
 				  0,      0,      1, 0,
 				  0,      0,      0, 1 );
 }
@@ -613,9 +633,9 @@ mat4 mat4 :: rotate ( const vec3& v, float angle )
 	return a;
 }
 
-mat4 mat4 :: rotate ( float yaw, float pitch, float roll )
+mat4 mat4 :: rotateEuler ( float yaw, float pitch, float roll )
 {
-    return rotateY ( yaw ) * rotateZ ( roll ) * rotateX ( pitch );
+    return rotateX ( pitch ) * rotateY ( yaw ) * rotateZ ( roll );
 /*
 	mat4 a;
 	float    cy = cos ( yaw );
@@ -723,4 +743,27 @@ mat3 normalMatrix ( const mat4& mv )
 	nm.transpose ();
 	
 	return nm;
+}
+
+vec3 eulerFromMatrix ( const mat4& m )
+{
+	const float * data = m.data ();
+	vec3          angle;
+	float		  c;
+
+	angle.x = -asinf ( data [2] );
+	c       =  cosf  ( angle.x );
+
+	if ( fabsf ( c ) > EPS )
+	{
+		angle.y = atan2f ( data [6] / c, data [10] / c );
+		angle.z = atan2f ( data [1] / c, data [0]  / c );
+	} 
+	else
+	{
+		angle.y = 0.0f;
+		angle.z = atan2f ( data [4], data [5] );
+	}
+
+	return angle;
 }

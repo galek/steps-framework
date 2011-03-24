@@ -832,7 +832,7 @@ void	Program :: transformFeedbacksVars ( const char * names, GLenum mode )
 	char  * varyings [128];
 	size_t	count = 0;
 	
-	for ( char * ptr = strtok ( strcpy ( buf, names ), " ," ); ptr; ptr = strtok ( NULL, " ," ) )
+	for ( char * ptr = strtok ( strcpy ( buf, names ), " ,;" ); ptr; ptr = strtok ( NULL, " ,;" ) )
 		varyings [count++] = ptr;
 
 	glTransformFeedbackVaryings ( program, count, (const GLchar **)varyings, mode );

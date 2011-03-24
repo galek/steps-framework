@@ -60,6 +60,18 @@ bool	VertexBuffer :: unmap ()
 	return glUnmapBuffer ( target ) == GL_TRUE;
 }
 
+void	VertexBuffer :: setAttrPtr ( int index, int numComponents, GLsizei stride, void * ptr, GLenum type, bool normalized )
+{
+	glVertexAttribPointer ( index, 					// index
+							numComponents, 			// number of values per vertex
+							type, 					// type (GL_FLOAT)
+							normalized ? GL_TRUE : GL_FALSE,
+							stride, 				// stride (offset to next vertex data)
+							(const GLvoid*) ptr );
+		
+	glEnableVertexAttribArray ( index );
+}
+
 void	VertexBuffer :: bindBase ( GLenum theTarget, int index )
 {
 	glBindBufferBase ( target = theTarget, index, id );

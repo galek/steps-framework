@@ -390,7 +390,7 @@ mat3 mat3 :: rotate ( const vec3& v, float angle )
 
 mat3 mat3 :: rotateEuler ( float yaw, float pitch, float roll )
 {
-    return  rotateZ ( -roll ) * rotateY ( yaw ) * rotateX ( pitch );
+    return rotateX ( pitch ) * rotateY ( yaw ) * rotateZ ( roll );
 }
 
 mat3 mat3 :: mirrorX ()
@@ -406,4 +406,27 @@ mat3 mat3 :: mirrorY ()
 mat3 mat3 :: mirrorZ ()
 {
 	return mat3 ( vec3 ( 1, 1, -1 ) );
+}
+
+vec3 eulerFromMatrix ( const mat3& m )
+{
+	const float * data = m.data ();
+	vec3          angle;
+	float		  c;
+	
+	angle.x = -asinf ( data [2] );
+	c       =  cosf  ( angle.x  );
+
+	if ( fabsf ( c ) > EPS )
+	{
+		angle.y = atan2f ( data [5] / c, data [8] / c );		// m12, m22
+		angle.z = atan2f ( data [1] / c, data [0] / c );
+	} 
+	else
+	{
+		angle.y = 0.0f;
+		angle.z = atan2f ( data [3], data [4] );
+	}
+
+	return angle;
 }

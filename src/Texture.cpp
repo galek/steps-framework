@@ -80,9 +80,8 @@ bool	Texture :: create2D ( int theWidth, int theHeight, GLenum theFormat, GLenum
 
 bool	Texture :: createRectangle ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt )
 {
+checkGlError ( "texture::createRect::0" );
 	target         = GL_TEXTURE_RECTANGLE;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
@@ -90,13 +89,18 @@ bool	Texture :: createRectangle ( int theWidth, int theHeight, GLenum theFormat,
 	
 	glGenTextures   ( 1, &id );
     glBindTexture   ( target, id );
+	
+checkGlError ( "texture::createRect::1" );
+	
     glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                  // set 1-byte alignment
-    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_REPEAT );    // set default params for texture
-    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri ( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+//    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_REPEAT );    // set default params for texture
+//    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_REPEAT );
+checkGlError ( "texture::createRect::2" );
     glTexImage2D    ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), GL_UNSIGNED_BYTE, NULL );
+checkGlError ( "texture::createRect::3" );
     glBindTexture   ( target, 0 );
+
+checkGlError ( "texture::createRect::4" );
 
 	return true;
 }
@@ -104,8 +108,6 @@ bool	Texture :: createRectangle ( int theWidth, int theHeight, GLenum theFormat,
 bool	Texture :: create3D ( int theWidth, int theHeight, int theDepth, GLenum theFormat, GLenum theIntFmt )
 {
 	target         = GL_TEXTURE_3D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
@@ -818,11 +820,9 @@ void	Texture :: buildMipmaps ()
 // XXX ???
 // Before you can generate mipmaps, you must set the base mipmap level 
 // (http://www.opengl.org/wiki/Texture#Mip_maps)
-glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, 0);
-
-glTexParameteri(target, GL_GENERATE_MIPMAP, GL_TRUE); 	
-
-glGenerateMipmap ( target );						// should be bound
+	glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(target, GL_GENERATE_MIPMAP, GL_TRUE); 	
+	glGenerateMipmap ( target );						// should be bound
 }
 
 void	Texture :: setSwizzle ( GLenum red, GLenum green, GLenum blue, GLenum alpha )
