@@ -10,7 +10,7 @@
 
 #include	<string>
 #include	<GL/glew.h>
-#include	"../gl3.h"
+#include	<gl3.h>
 
 using namespace std;
 

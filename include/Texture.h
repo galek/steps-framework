@@ -42,22 +42,22 @@ public:
 		return autoMipmaps;
 	}
 	
-	bool	getId () const
+	int	getId () const
 	{
 		return id;
 	}
 	
-	bool	getWidth () const
+	int	getWidth () const
 	{
 		return width;
 	}
 	
-	bool	getHeight () const
+	int	getHeight () const
 	{
 		return height;
 	}
 	
-	bool	getDepth () const
+	int	getDepth () const
 	{
 		return depth;
 	}

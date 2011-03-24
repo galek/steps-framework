@@ -11,6 +11,9 @@
 #include	"common.h"
 #include	"vec2.h"
 
+class mat3;
+class mat4;
+
 class	mat2
 {
 	float m [4];
@@ -79,6 +82,9 @@ public:
 	friend mat2 operator * ( float, const mat2& );
 	friend mat2 operator / ( const mat2&, float );
 	friend vec2 operator * ( const mat2&, const vec2& );
+
+	friend class mat3;
+	friend class mat4;
 };
 
 #endif

@@ -46,7 +46,7 @@ public:
 	
 	void	unbind ()
 	{
-		glBindVertexArray ( id );
+		glBindVertexArray ( 0 );
 	}
 };
 

@@ -11,6 +11,9 @@
 #include	"common.h"
 #include	"vec3.h"
 
+class	mat2;
+class	mat4;
+
 class	mat3
 {
 	float m [9];
@@ -81,6 +84,12 @@ public:
 	friend mat3 operator * ( float, const mat3& );
 	friend mat3 operator / ( const mat3&, float );
 	friend vec3 operator * ( const mat3&, const vec3& );
+
+	friend class mat2;
+	friend class mat4;
 };
+
+					// build Euler angles from rotation matrix
+vec3 eulerFromMatrix ( const mat3& m );
 
 #endif

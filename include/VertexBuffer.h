@@ -51,6 +51,8 @@ public:
 		glBufferData ( target, 0, NULL, 0 /*usage*/ );
 	}
 	
+	void	setAttrPtr ( int index, int numComponents, GLsizei stride, void * ptr, GLenum type = GL_FLOAT, bool normalized = false );
+	
 								// for transform feedback or uniform buffers only
 	void	bindBase  ( GLenum theTarget, int index );
 	void	bindRange ( GLenum theTarget, int index, GLintptr offset, GLsizeiptr size );

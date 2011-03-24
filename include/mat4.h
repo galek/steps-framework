@@ -13,6 +13,8 @@
 #include	"vec4.h"
 #include	"mat3.h"
 
+class	mat2;
+
 class	mat4
 {
 	float m [16];
@@ -23,6 +25,7 @@ public:
 	mat4 ( float d );		// create diagonal matrix d * I
 	mat4 ( const vec3& a );
 	mat4 ( const vec4& a );
+	mat4 ( const mat3& a );
 	explicit mat4 ( const float * values );
 	mat4 ( float a0,  float a1,  float a2,  float a3,		// first row
 	       float a4,  float a5,  float a6,  float a7,		// second row
@@ -106,7 +109,7 @@ public:
 	static	mat4	rotateY  ( float );		// rotate counter-clockwiose, angle in radians
 	static	mat4	rotateZ  ( float );		// rotate counter-clockwiose, angle in radians
 	static	mat4	rotate   ( const vec3& v, float angle );
-	static	mat4	rotate   ( float yaw, float pitch, float roll );
+	static	mat4	rotateEuler ( float yaw, float pitch, float roll );
 
 												// reflections
 	static	mat4	mirrorX  ();
@@ -121,6 +124,8 @@ public:
 	friend vec3 operator * ( const mat4&, const vec3& );
 	friend vec4 operator * ( const mat4&, const vec4& );
 	
+	friend class mat2;
+	friend class mat3;
 };
 
 mat4 ortho        ( float left, float right, float bottom, float top, float zNear, float zFar );
@@ -130,5 +135,8 @@ mat4 lookAt       ( const vec3& eye, const vec3& center, const vec3& up );
 
 					// build normal matrix from model-view
 mat3 normalMatrix ( const mat4& mv );
+
+					// build Euler angles from rotation matrix
+vec3 eulerFromMatrix ( const mat4& m );
 
 #endif
