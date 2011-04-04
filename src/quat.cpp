@@ -259,35 +259,26 @@ quat	slerp ( const quat& q1, const quat& q2, float t )
 
 quat	quat :: exp () const
 {
-	float	a    = (float) sqrt ( x * x + y * y + z * z );		// v.length ();
-	float	sina = (float)sin ( a );
-	float	cosa = (float)cos ( a );
-	quat	res;
-
-	res.w = cosa;
-	if ( a > EPS )
-	{
-		sina /= a;
-		
-		res.x = sina * x;
-		res.y = sina * y;
-		res.z = sina * z;
-	} 
-	else 
-	{
-		res.x = 
-		res.y = 
-		res.z = 0;
-	}
+	float t = sqrtf ( x * x + y * y + z * z );		// v.length ();
 	
-	return res * ::exp ( w );
+	if ( t < EPS )
+		return quat ( 0, 0, 0, expf ( w ) );
+		
+	float	s = sinf ( t ) / t;
+	float	c = cosf ( t );
+	
+	return expf ( w ) * quat ( s * x, s * y, s* z, c );
 }
 
 quat	quat :: log () const
 {
 	float l    = length ();
-	float vn   = (float) sqrt ( x * x + y * y + z * z );		// v.length ();
-	float a    = (float)acos ( w / l ) / vn;
 	
-	return quat ( x * a, y * a, z * a, ::log ( l ) );
+	if ( l < EPS )
+		return quat ( 0, 0, 0, 0 );			// some error
+		
+	float a = (float)acos ( w / l );
+	float s = sinf ( a );
+	
+	return quat ( x * s, y * s, z * s, logf ( l ) );
 }

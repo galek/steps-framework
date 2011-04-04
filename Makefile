@@ -5,30 +5,31 @@
 #
 
 GLUTPATH   = /usr/include/GL
-CFLAGS     = -x c++ -g -I/usr/include/GL -Wall -Ilibs -Iinclude
+CFLAGS     = -x c++ -g -I/usr/include/GL -Wall -Ilibs -Iinclude -Icontrib
 CONLYFLAGS = -g -I/usr/include/GL -Wall -Ilibs -Iinclude
 LIBS       = -L/usr/X11R6/lib -L$(GLUTPATH)/lib -lglut -lGL -lXt -lX11 -lm -ljpeg -lz -lpng -lGLEW
 
-MATH = vec2.o vec3.o vec4.o mat2.o mat3.o mat4.o quat.o plane.o bbox.o randUtils.o eig3.o
-TEXT = Texture.o TexImage.o TgaEncoder.o TgaDecoder.o DdsDecoder.o BmpDecoder.o JpegDecoder.o PngDecoder.o Resources.o FileSystem.o ZipFileSystem.o TexFormat.o
-WRAP = Data.o Program.o VertexBuffer.o Framebuffer.o stringUtils.o glUtilities.o UbAccessor.o Sampler.o half.o ScreenQuad.o Sync.o Query.o
+MATH = build/vec2.o build/vec3.o build/vec4.o build/mat2.o build/mat3.o build/mat4.o build/quat.o build/plane.o build/bbox.o build/randUtils.o build/eig3.o build/kdop.o
+TEXT = build/Texture.o build/TexImage.o build/TgaEncoder.o build/TgaDecoder.o build/DdsDecoder.o build/BmpDecoder.o build/JpegDecoder.o build/PngDecoder.o build/Resources.o build/FileSystem.o build/ZipFileSystem.o build/TexFormat.o
+WRAP = build/Data.o build/Program.o build/VertexBuffer.o build/Framebuffer.o build/stringUtils.o build/glUtilities.o build/UbAccessor.o build/Sampler.o build/half.o build/ScreenQuad.o build/Sync.o build/Query.o
 
-ALL = 1 2 3 4 5 6 geom-1 geom-2 geom-3 geom-4 light light-ub bezier phong tex-cube tex-3d tex-2d knot test-half test-quad test-sphere test-box test-camera
+all: build steps.a
 
-all: steps.a
-
+build:
+	mkdir build
+	
 steps.a: $(MATH) $(TEXT) $(WRAP)
-	ar -rcv steps.ar $^ -o $@
+	ar -rcv $@ $^
 
 
 clean:
-	rm -r -f $(ALL) *.o 2> /dev/null
+	rm -r -f *.o 2> /dev/null
+	rm -rf build 2> /dev/null
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) $(INCLUDE) -c $<
+build/%.o: src/%.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-
-%.o: eig3x3/%.cpp
-	$(CC) $(CFLAGS) $(INCLUDE) -c $<
+build/%.o: contrib/eig3x3/%.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 
