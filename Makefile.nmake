@@ -1,7 +1,7 @@
 #
-# Makefile to build OpenGL 3.3/4.1 examples for  M$ Window
+# Makefile to build StepsFramework for  M$ Window
 #
-# Author: Alex V. Boreskoff, <steps3d@narod.ru>
+# Author: Alex V. Boreskoff, <steps3d@narod.ru>, <steps3d@gmail.com>
 #
 
 !include <win32.mak>
@@ -27,7 +27,7 @@ OPENGL          = opengl32.lib freeglut_static.lib
 
 FREEGLUT = ../../freeglut
 GLEW     = ../glew-1.5.7
-INC = $(INC) -Iinclude -Icontrib -I$(GLEW)/include -Ilibs #-I$(FREEGLUT)/GL 
+INC = $(INC) -Iinclude -Icontrib -I$(GLEW)/include -Ilibs
 
 !if defined (STATIC)
 LLDLIBS  = $(LFLAGS) $(DEBUG_LINK_FLAGS) $(OPENGL) glew32s.lib /LIBPATH:$(FREEGLUT)/lib/win32-vc2008 /LIBPATH:$(GLEW)/lib /LIBPATH:libs zlib.lib libpng.lib libjpeg.lib
