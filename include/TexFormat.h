@@ -1,5 +1,5 @@
 //
-// Basic description of the OIpenGL texture format
+// Basic description of the OpenGL texture format
 //
 // Author: Alexey V. Boreskov, <steps3d@narod.ru>, <steps3s@gmail.com>
 //

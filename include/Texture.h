@@ -1,6 +1,5 @@
 //
 // Texture wrapper class for OpenGL 3.3 and higher
-// Requires DevIL
 //
 // Author: Alexey V. Boreskov
 //
@@ -27,6 +26,10 @@ class	Texture
 	bool		cubemap;					// is it a cubemap
 	bool		compressed;					// is it compressed
 	bool		autoMipmaps;				// load mipmaps or create if cannot load
+	
+								// disable copying
+	Texture ( const Texture& );
+	Texture& operator = ( const Texture& );
 	
 public:
 	Texture  ( bool theAutoMipmaps = true );

@@ -19,11 +19,14 @@ class	FrameBuffer
 	int		width;
 	int		height;
 	GLuint	frameBuffer;					// id of framebuffer object
-//	GLuint	colorBuffer [8];				// texture id or buffer id
 	Texture * colorBuffer [8];
 	GLuint	depthBuffer;
 	GLuint	stencilBuffer;					// 
 	GLint	saveViewport [4];				// saved viewport setting during bind
+	
+								// disable copying
+	FrameBuffer ( const FrameBuffer& );
+	FrameBuffer& operator = ( const FrameBuffer& );
 	
 public:
 	FrameBuffer  ( int theWidth, int theHeight, int theFlags = 0 );

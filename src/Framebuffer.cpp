@@ -94,9 +94,9 @@ bool	FrameBuffer :: create ()
 
 bool	FrameBuffer :: isOk () const
 {
-	GLint	currentFb;
+	GLuint	currentFb;
 
-	glGetIntegerv ( GL_FRAMEBUFFER_BINDING, &currentFb );
+	glGetIntegerv ( GL_FRAMEBUFFER_BINDING, (GLint *)&currentFb );
 
 	if ( currentFb != frameBuffer )
 	{

@@ -35,6 +35,10 @@ protected:
     string	glError;
     string  log;
 
+								// disable copying
+	Program ( const Program& );
+	Program& operator = ( const Program& );
+	
 public:
     Program  ();
     ~Program ();

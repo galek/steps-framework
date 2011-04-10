@@ -13,6 +13,10 @@ class	VertexArray
 {
 	GLuint	id;
 	
+								// disable copying
+	VertexArray ( const VertexArray& );
+	VertexArray& operator = ( const VertexArray& );
+	
 public:
 	VertexArray ()
 	{

@@ -18,8 +18,8 @@
 
 using namespace std;
 
-extern	bool	doDdsFlip    = true;	// whether loader should vertically flip dds image
-extern	bool	doNotDdsFlip = false;	// whether loader should vertically flip not-dds (bmp/png/tga/jpg) images
+bool	doDdsFlip    = true;	// whether loader should vertically flip dds image
+bool	doNotDdsFlip = false;	// whether loader should vertically flip not-dds (bmp/png/tga/jpg) images
 
 list <FileSystem *>             fileSystems;			// where we can take resources
 map  <string, TextureDecoder *>	decoders;				// how to decode resource into textures

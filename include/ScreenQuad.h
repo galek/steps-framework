@@ -18,6 +18,7 @@ class	ScreenQuad
 	vec4			args;				// to pass data to program "uniform vec4 args;"
 	VertexArray		vao;
 	VertexBuffer	buf;
+	
 public:
 	ScreenQuad ( int theWidth, int theHeight, float theSMax, float theTMax );
 	

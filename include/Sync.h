@@ -13,6 +13,11 @@
 class Sync
 {
 	GLsync	sync;
+	
+								// disable copying
+	Sync ( const Sync& );
+	Sync& operator = ( const Sync& );
+	
 public:
 	Sync  ();
 	~Sync ();	

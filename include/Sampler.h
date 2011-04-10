@@ -12,6 +12,10 @@ class	Sampler
 {
 	GLuint	id;
 	
+								// disable copying
+	Sampler ( const Sampler& );
+	Sampler& operator = ( const Sampler& );
+	
 public:
 	Sampler  ()
 	{

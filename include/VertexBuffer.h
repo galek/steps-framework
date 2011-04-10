@@ -1,5 +1,5 @@
 //
-// Basic wrapper for OpenGL VBO extension
+// Basic wrapper for OpenGL VBO
 //
 // Author: Alexey V. Boreskov, <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -16,6 +16,10 @@ class	VertexBuffer
 	GLuint	id;
 	GLenum	target;
 	bool	ok;
+	
+								// disable copying
+	VertexBuffer ( const VertexBuffer& );
+	VertexBuffer& operator = ( const VertexBuffer& );
 	
 public:
 	VertexBuffer  ();
