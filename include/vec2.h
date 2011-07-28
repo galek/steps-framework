@@ -167,6 +167,26 @@ public:
 		return vec2 ( v1.x > v2.x ? v1.x : v2.x, v1.y > v2.y ? v1.y : v2.y );
 	}
 
+	static inline vec2 sum ( const vec2 * v, int n )
+	{
+		vec2	s ( 0.0f );
+		
+		for ( int i = 0; i < n; i++ )
+			s += v [i];
+			
+		return s;
+	}
+	
+	static inline vec2 ave ( const vec2 * v, int n )
+	{
+		vec2	s ( 0.0f );
+		
+		for ( int i = 0; i < n; i++ )
+			s += v [i];
+			
+		return vec2 ( s.x / n, s.y / n );
+	}
+	
 	friend vec2 operator + ( const vec2&, const vec2& );
 	friend vec2 operator - ( const vec2&, const vec2& );
 	friend vec2 operator * ( const vec2&, const vec2& );

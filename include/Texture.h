@@ -21,7 +21,6 @@ class	Texture
 	GLuint		id;
 	GLenum		target;
 	TexFormat	fmt;
-//	GLenum		format, internalFormat;
 	int			width, height, depth;
 	bool		cubemap;					// is it a cubemap
 	bool		compressed;					// is it compressed
@@ -79,17 +78,6 @@ public:
 	{
 		return target;
 	}
-/*	
-	GLenum	getFormat () const
-	{
-		return format;
-	}
-	
-	GLenum getInternalFormat () const
-	{
-		return internalFormat;
-	}	
-*/
 
 	const TexFormat& getFormat () const
 	{

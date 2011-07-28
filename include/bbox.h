@@ -24,6 +24,10 @@ public:
     }
 
     bbox ( const vec3& v1, const vec3& v2 );
+	bbox ( const bbox& b1, const bbox& b2 ) : minPoint ( b1.minPoint ), maxPoint ( b1.maxPoint )
+	{
+		merge ( b2 );
+	}
 
 	vec3	getMinPoint () const
 	{

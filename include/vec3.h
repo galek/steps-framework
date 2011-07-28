@@ -175,6 +175,26 @@ public:
 		return vec3 ( v1.x > v2.x ? v1.x : v2.x, v1.y > v2.y ? v1.y : v2.y, v1.z > v2.z ? v1.z : v2.z );
 	}
 
+	static inline vec3 sum ( const vec3 * v, int n )
+	{
+		vec3	s ( 0.0f );
+		
+		for ( int i = 0; i < n; i++ )
+			s += v [i];
+			
+		return s;
+	}
+	
+	static inline vec3 ave ( const vec3 * v, int n )
+	{
+		vec3	s ( 0.0f );
+		
+		for ( int i = 0; i < n; i++ )
+			s += v [i];
+			
+		return vec3 ( s.x / n, s.y / n, s.z / n );
+	}
+	
     static	vec3	zero;
     static	vec3	one;
 

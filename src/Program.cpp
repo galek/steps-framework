@@ -27,6 +27,7 @@ Program :: Program ()
 	tessEvalShader    = 0;
     ok                = false;
 	linkRequired      = true;
+	separate          = false;
 }
 
 Program :: ~Program ()
@@ -310,6 +311,87 @@ bool    Program :: loadShaders ( Data * vertexShaderData, Data * fragmentShaderD
     }
 
 	return relink ();
+}
+
+bool	Program :: loadSeparate ( GLenum type, Data * data )
+{
+	if ( !data -> isOk () || data -> getLength () < 1 )
+	{
+		log += "Error loading separate shader\n";
+		
+		return false;
+	}
+
+		// now create an array of zero-terminated strings
+		
+    const char * body  = (const char *) data -> getPtr ( 0 );
+    GLint		 len   = data -> getLength ();
+	char       * buf   = (char *) malloc ( len + 1 );
+//	GLsizei		 count = 0;
+	
+	memcpy ( buf, body, len );
+	buf [len] = '\0';
+/*
+	for ( int i = 0; i < len; i++ )
+		if ( body [i] == '\n' )
+			count++;
+	
+	if ( count == 0 )
+		count = 1;				// we know it's not empty (len > 0)
+
+		
+	const char ** strings = (const char **) malloc ( count * sizeof ( char * ) );
+	string		  s;
+	int			  pos  = 0;
+	int			  line = 0;
+
+	while ( data -> getString ( s, '\n' ) )
+	{
+		strcpy ( buf + pos, s.c_str () );
+		
+		strings [line++] = buf + pos;
+		pos             += s.length () + 1;
+	}
+
+	program = glCreateShaderProgramv ( type, count, strings );
+*/	
+	program      = glCreateShaderProgramv ( type, 1, (const char **)&buf );
+	separate     = true;
+	linkRequired = false;
+	ok           = true;
+	
+    loadProgramLog ( program );
+
+printf ( "Log :%s\n", log.c_str () );
+
+GLint Result = GL_FALSE;
+glGetProgramiv(program, GL_LINK_STATUS, &Result);
+printf ( "Link status = %d\n", Result );	
+
+	free ( buf );
+//	free ( strings );
+	
+	return program != 0;
+}
+
+bool	Program :: loadSeparate ( GLenum type, const string& fileName )
+{
+    Data * data = new Data ( fileName );
+
+	if ( data == NULL )
+	{
+		log += "Cannot open \"";
+		log += fileName;
+		log += "\"\n";
+		
+		return false;
+	}
+
+	bool	res = loadSeparate ( type, data );
+	
+	delete data;
+	
+	return res;
 }
 
 bool	Program :: getLinkStatus () const
@@ -1167,3 +1249,8 @@ int	Program :: maxCombinedUniformComponents ()
 	return m;
 }
 */
+
+bool	Program :: isSeparateShadersSupported ()
+{
+	return glewGetExtension ( "GL_ARB_separate_shader_objects" );
+}

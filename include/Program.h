@@ -34,6 +34,7 @@ protected:
 	bool	linkRequired;
     string	glError;
     string  log;
+	bool	separate;
 
 								// disable copying
 	Program ( const Program& );
@@ -47,6 +48,8 @@ public:
 	bool	loadProgram           ( const string& fileName );
 	bool	loadProgram           ( Data * data );
 	bool	loadProgramFromString ( const string& source );
+	bool	loadSeparate          ( GLenum type, Data * data );
+	bool	loadSeparate          ( GLenum type, const string& fileName );
 	
 												// load and compile a single shader, no linking
 	bool	loadShaderOfType ( Data * data, GLenum type );
@@ -85,6 +88,11 @@ public:
         return glError;
     }
 
+	bool	isSeparate () const
+	{
+		return separate;
+	}
+	
     void    bind   ();
     void    unbind ();
     bool    relink ();
@@ -159,6 +167,7 @@ public:
     static  string  version                      ();	// GLSL version
 	static	bool	isGeometryShaderSupported    ();
 	static	bool	isTesselationShaderSupported ();
+	static	bool	isSeparateShadersSupported   ();
 					
 														// transform feedback limitations
 	static	int		maxTransformFeedbackSeparateAttribs       ();
