@@ -820,8 +820,9 @@ void	Texture :: buildMipmaps ()
 // XXX ???
 // Before you can generate mipmaps, you must set the base mipmap level 
 // (http://www.opengl.org/wiki/Texture#Mip_maps)
-	glTexParameteri(target, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(target, GL_GENERATE_MIPMAP, GL_TRUE); 	
+
+	glTexParameteri  ( target, GL_TEXTURE_BASE_LEVEL, 0 );
+	glTexParameteri  ( target, GL_GENERATE_MIPMAP, GL_TRUE );
 	glGenerateMipmap ( target );						// should be bound
 }
 
@@ -875,4 +876,14 @@ void	Texture :: setParamsFromTexImage ( TexImage * image, GLenum theTarget )
 		
 	fmt = TexFormat ( fmt.format, image -> getFormat () );
 		
+}
+
+void	Texture :: setBaseLevel ( int level )
+{
+	glTexParameteri ( target, GL_TEXTURE_BASE_LEVEL, level );
+}
+
+void	Texture :: setMaxLevel ( int level )
+{
+	glTexParameteri ( target, GL_TEXTURE_MAX_LEVEL, level );
 }

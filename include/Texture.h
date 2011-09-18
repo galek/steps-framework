@@ -116,6 +116,8 @@ public:
 	
 	void	buildMipmaps ();
 	void	setSwizzle ( GLenum red, GLenum green, GLenum blue, GLenum alpha );
+	void	setBaseLevel ( int level );	// ??? add ivar and getter ???
+	void	setBaseLevel ( int level );
 	
 // void	SamplerDepth :: copyFromDepthBuffer ()
 	
