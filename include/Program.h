@@ -129,17 +129,13 @@ public:
 	int		uniformBlockActiveUniforms ( int blockIndex ) const;
 	bool	getUniformBlockVar         ( int blockIndex, const char * varName, int& offs, int& size );
 	void	bindBufferToIndex          ( int uniformBlockIndex, int bindingIndex );
-	
 
-														// bind uniform to VBO
-//	bool		bindUniform       ( const char * name, GLuint bufId );
-	
-    int     indexForAttrName ( const char * name );
-	bool	setAttrPtr       ( const char * name, int numComponents, GLsizei stride, void * ptr, GLenum type = GL_FLOAT, bool normalized = false );
+    int     indexForAttrName   ( const char * name );
+	bool	setAttrPtr         ( const char * name, int numComponents, GLsizei stride, void * ptr, GLenum type = GL_FLOAT, bool normalized = false );
 	
 														// bind texture units to uniforms
-    bool	setTexture       ( const char * name, int texUnit );
-    bool	setTexture       ( int loc,           int texUnit );
+    bool	setTexture         ( const char * name, int texUnit );
+    bool	setTexture         ( int loc,           int texUnit );
 
 													// bind frgament outputs
 	bool	bindFragOut        ( const char * name, int no );
@@ -174,9 +170,8 @@ public:
 	static	int		maxTransformFeedbackInterleavedComponents ();
 	
 	
-	static	int	maxUniformBufferBindings ();
-//	static	int	maxCombinedUniformComponents ();
                                                         // some limitations on program
+	static	int	maxUniformBufferBindings     ();
     static  int maxVertexUniformComponents   ();
     static  int maxVertexAttribs             ();
     static  int maxFragmentTextureUnits      ();

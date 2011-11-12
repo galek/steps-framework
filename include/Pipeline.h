@@ -35,7 +35,8 @@ public:
 	bool	bind   ();
 	bool	unbind ();
 
-	bool	setStage ( GLbitfield mask, Program * );
+	bool	setStage         ( GLbitfield mask, Program * );
+	bool	setAllStages     ( Program * );
 	bool	setActiveProgram ( Program * );
 	bool	validate ();
 

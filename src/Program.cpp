@@ -327,34 +327,10 @@ bool	Program :: loadSeparate ( GLenum type, Data * data )
     const char * body  = (const char *) data -> getPtr ( 0 );
     GLint		 len   = data -> getLength ();
 	char       * buf   = (char *) malloc ( len + 1 );
-//	GLsizei		 count = 0;
 	
 	memcpy ( buf, body, len );
 	buf [len] = '\0';
-/*
-	for ( int i = 0; i < len; i++ )
-		if ( body [i] == '\n' )
-			count++;
 	
-	if ( count == 0 )
-		count = 1;				// we know it's not empty (len > 0)
-
-		
-	const char ** strings = (const char **) malloc ( count * sizeof ( char * ) );
-	string		  s;
-	int			  pos  = 0;
-	int			  line = 0;
-
-	while ( data -> getString ( s, '\n' ) )
-	{
-		strcpy ( buf + pos, s.c_str () );
-		
-		strings [line++] = buf + pos;
-		pos             += s.length () + 1;
-	}
-
-	program = glCreateShaderProgramv ( type, count, strings );
-*/	
 	program      = glCreateShaderProgramv ( type, 1, (const char **)&buf );
 	separate     = true;
 	linkRequired = false;
@@ -362,14 +338,13 @@ bool	Program :: loadSeparate ( GLenum type, Data * data )
 	
     loadProgramLog ( program );
 
+/*
 printf ( "Log :%s\n", log.c_str () );
-
 GLint Result = GL_FALSE;
 glGetProgramiv(program, GL_LINK_STATUS, &Result);
 printf ( "Link status = %d\n", Result );	
-
+*/
 	free ( buf );
-//	free ( strings );
 	
 	return program != 0;
 }
@@ -415,8 +390,8 @@ bool	Program :: relink ()
                                 // link the program object and print out the info log
     glLinkProgram ( program );
 
-/**/  if ( !checkGlError () )     // check for errors
-/**/      return false;
+	if ( !checkGlError () )     // check for errors
+	    return false;
 
     glGetProgramiv ( program, GL_LINK_STATUS, &linked );
 

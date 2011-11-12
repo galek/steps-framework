@@ -56,16 +56,16 @@ bool	FrameBuffer :: create ()
 		depthFormat = GL_DEPTH_COMPONENT32;
 
 	if ( flags & stencil1 )
-		stencilFormat = GL_STENCIL_INDEX1;	//XXX
+		stencilFormat = GL_STENCIL_INDEX1;
 	else
 	if ( flags & stencil4 )
-		stencilFormat = GL_STENCIL_INDEX4;	//XXX
+		stencilFormat = GL_STENCIL_INDEX4;
 	else
 	if ( flags & stencil8 )
-		stencilFormat = GL_STENCIL_INDEX8;	//XXX
+		stencilFormat = GL_STENCIL_INDEX8;
 	else
 	if ( flags & stencil16 )
-		stencilFormat = GL_STENCIL_INDEX16;	//XXX
+		stencilFormat = GL_STENCIL_INDEX16;
 
 	if ( depthFormat != 0 )
 	{
@@ -121,7 +121,7 @@ bool	FrameBuffer :: bind ()
 								// save current viewport
 	glGetIntegerv     ( GL_VIEWPORT, saveViewport );
 	glBindFramebuffer ( GL_FRAMEBUFFER, frameBuffer );
-	glReadBuffer      ( GL_COLOR_ATTACHMENT0 );			// XXX: what about multiple color attachments
+	glReadBuffer      ( GL_COLOR_ATTACHMENT0 );
 	glDrawBuffer      ( GL_COLOR_ATTACHMENT0 );
 	glViewport        ( 0, 0, getWidth (), getHeight () );
 
@@ -161,12 +161,8 @@ bool	FrameBuffer :: attachColorTexture ( Texture * tex, int no )
 
 	colorBuffer [no] = tex;
 	
-checkGlError ( "fb:attach:0" );
-	
 	glBindTexture          ( tex -> getTarget (), tex -> getId () );
-checkGlError ( "fb:attach:1" );
 	glFramebufferTexture2D ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + no, tex -> getTarget (), tex -> getId (), 0 );
-checkGlError ( "fb:attach:2" );
 
 	return true;
 }
@@ -179,7 +175,6 @@ bool	FrameBuffer :: attachCubeMapFace ( Texture * tex, int face, int no )
 	if ( !tex -> isCubemap () )
 		return false;
 		
-//	if ( face < GL_TEXTURE_CUBE_MAP_POSITIVE_X || face > GL_TEXTURE_CUBE_MAP_NEGATIVE_Z )
 	if ( face < 0 || face > 5 )
 		return false;
 		
@@ -344,11 +339,7 @@ Texture * FrameBuffer :: create3DTexture ( int depth, GLenum format, GLenum inte
 
 Texture * FrameBuffer :: createColorRectTexture ( GLenum format, GLenum internalFormat )
 {
-	checkGlError ( "createColorRectTex::0" );
-
 	Texture * tex = new Texture ( false );
-	
-	checkGlError ( "createColorRectTex::1" );
 	
 	if ( !tex -> createRectangle ( width, height, format, internalFormat ) ) 
 	{
@@ -357,8 +348,6 @@ Texture * FrameBuffer :: createColorRectTexture ( GLenum format, GLenum internal
 		return NULL;
 	}
 
-	checkGlError ( "createColorRectTex::1" );
-	
     return tex;
 }
 

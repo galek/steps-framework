@@ -164,5 +164,6 @@ inline quat normalize ( const quat& q )
 }
 
 quat	slerp ( const quat& q1, const quat& q2, float t );
+quat	squad ( const quat& q1, const quat& q2, const quat& a, const quat&b, float t );
 
 #endif

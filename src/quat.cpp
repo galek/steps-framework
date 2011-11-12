@@ -219,6 +219,32 @@ void	quat :: getMatrix ( mat3& m ) const
 	m [2][2] = 1.0f - 2.0f * ( x * x + y * y );
 }
 
+quat	quat :: exp () const
+{
+	float t = sqrtf ( x * x + y * y + z * z );		// v.length ();
+	
+	if ( t < EPS )
+		return quat ( 0, 0, 0, expf ( w ) );
+		
+	float	s = sinf ( t ) / t;
+	float	c = cosf ( t );
+	
+	return expf ( w ) * quat ( s * x, s * y, s* z, c );
+}
+
+quat	quat :: log () const
+{
+	float l    = length ();
+	
+	if ( l < EPS )
+		return quat ( 0, 0, 0, 0 );			// some error
+		
+	float a = (float)acos ( w / l );
+	float s = sinf ( a );
+	
+	return quat ( x * s, y * s, z * s, logf ( l ) );
+}
+
 quat	slerp ( const quat& q1, const quat& q2, float t )
 {
 	float	d = dot ( q1, q2 );
@@ -257,28 +283,10 @@ quat	slerp ( const quat& q1, const quat& q2, float t )
 				  scale1 * q1.w + scale2 * q2.w );
 }
 
-quat	quat :: exp () const
+quat	squad ( const quat& q1, const quat& q2, const quat& a, const quat&b, float t )
 {
-	float t = sqrtf ( x * x + y * y + z * z );		// v.length ();
-	
-	if ( t < EPS )
-		return quat ( 0, 0, 0, expf ( w ) );
-		
-	float	s = sinf ( t ) / t;
-	float	c = cosf ( t );
-	
-	return expf ( w ) * quat ( s * x, s * y, s* z, c );
-}
+	quat	p1 = slerp ( q1, q2, t );
+	quat	p2 = slerp ( a,  b,  t );
 
-quat	quat :: log () const
-{
-	float l    = length ();
-	
-	if ( l < EPS )
-		return quat ( 0, 0, 0, 0 );			// some error
-		
-	float a = (float)acos ( w / l );
-	float s = sinf ( a );
-	
-	return quat ( x * s, y * s, z * s, logf ( l ) );
+	return slerp ( p1, p2, 2*t*(1 - t) );
 }

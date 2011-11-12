@@ -55,6 +55,11 @@ bool	Pipeline :: setStage ( GLbitfield mask, Program * program )
 	return true;
 }
 
+bool	Pipeline :: setAllStages ( Program * program )
+{
+	return setStage ( GL_ALL_SHADER_BITS, program );
+}
+
 bool	Pipeline :: setActiveProgram ( Program * program )
 {
 	if ( id == 0 || program == NULL || !program -> isOk () )
@@ -70,9 +75,7 @@ bool	Pipeline :: validate ()
 	GLint	status;
 	
 	glValidateProgramPipeline ( id );
-checkGlError ( "validate" );
 	glGetProgramPipelineiv    ( id, GL_VALIDATE_STATUS, &status );
-checkGlError ( "get validate status" );
 	
 	return status != 0;
 }
