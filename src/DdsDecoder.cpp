@@ -361,6 +361,19 @@ TexImage * DdsDecoder :: load ( Data * data )
 		TexImage * image = TexImage :: new2D ( ddsd.dwWidth, ddsd.dwHeight, numComponents ); 
 		
     	loadUncompressed ( data, ddsd, numComponents, image -> imageData () );
+
+		if ( numComponents == 3 )
+			format = GL_RGB;
+		else
+		if ( numComponents == 4 )
+			format = GL_RGBA;
+		else
+		if ( numComponents == 1 )
+			format = GL_RED;
+		else
+			format = GL_RG;
+
+		return image;
 	}
 
     int numBlocks       = ((ddsd.dwWidth + 3)/4) * ((ddsd.dwHeight + 3)/4);   // number of 4*4 texel blocks

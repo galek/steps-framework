@@ -25,6 +25,7 @@ class	Texture
 	bool		cubemap;					// is it a cubemap
 	bool		compressed;					// is it compressed
 	bool		autoMipmaps;				// load mipmaps or create if cannot load
+	int		unit;					// texture unit texture is bound to
 	
 								// disable copying
 	Texture ( const Texture& );
@@ -115,7 +116,7 @@ public:
 	void	unbind ();
 	
 	void	buildMipmaps ();
-	void	setSwizzle ( GLenum red, GLenum green, GLenum blue, GLenum alpha );
+	void	setSwizzle   ( GLenum red, GLenum green, GLenum blue, GLenum alpha );
 	void	setBaseLevel ( int level );	// ??? add ivar and getter ???
 	void	setMaxLevel  ( int level );
 	

@@ -15,16 +15,15 @@
 
 Texture :: Texture ( bool theAutoMipmaps )
 {
-	id             = 0;
-	width          = 0;
-	height         = 0;
-	depth          = 0;
-	target         = 0;
-//	format         = 0;
-//	internalFormat = 0;
-	cubemap        = false;
-	compressed     = false;
-	autoMipmaps    = theAutoMipmaps;
+	id          = 0;
+	width       = 0;
+	height      = 0;
+	depth       = 0;
+	target      = 0;
+	cubemap     = false;
+	compressed  = false;
+	autoMipmaps = theAutoMipmaps;
+	unit        = -1;
 }
 
 Texture :: ~Texture ()
@@ -35,8 +34,6 @@ Texture :: ~Texture ()
 bool	Texture :: create1D ( int theWidth, GLenum theFormat, GLenum theIntFmt )		// use TexFormat as input
 {
 	target         = GL_TEXTURE_1D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	width          = theWidth;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	height         = 1;
@@ -58,8 +55,6 @@ bool	Texture :: create1D ( int theWidth, GLenum theFormat, GLenum theIntFmt )		/
 bool	Texture :: create2D ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt )
 {
 	target         = GL_TEXTURE_2D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
@@ -80,27 +75,20 @@ bool	Texture :: create2D ( int theWidth, int theHeight, GLenum theFormat, GLenum
 
 bool	Texture :: createRectangle ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt )
 {
-checkGlError ( "texture::createRect::0" );
 	target         = GL_TEXTURE_RECTANGLE;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
 	depth          = 1;	
+	autoMipmaps    = false;
 	
 	glGenTextures   ( 1, &id );
     glBindTexture   ( target, id );
-	
-checkGlError ( "texture::createRect::1" );
-	
+    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );     // set default params for texture
+    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
     glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                  // set 1-byte alignment
-//    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_REPEAT );    // set default params for texture
-//    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_REPEAT );
-checkGlError ( "texture::createRect::2" );
     glTexImage2D    ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), GL_UNSIGNED_BYTE, NULL );
-checkGlError ( "texture::createRect::3" );
     glBindTexture   ( target, 0 );
-
-checkGlError ( "texture::createRect::4" );
 
 	return true;
 }
@@ -129,8 +117,6 @@ bool	Texture :: create3D ( int theWidth, int theHeight, int theDepth, GLenum the
 bool	Texture :: createCubemap ( int theWidth, GLenum theFormat, GLenum theIntFmt )
 {
 	target         = GL_TEXTURE_2D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theWidth;
@@ -153,8 +139,6 @@ bool	Texture :: createCubemap ( int theWidth, GLenum theFormat, GLenum theIntFmt
 bool	Texture :: createArray1D ( int theWidth, int numSlices, GLenum theFormat, GLenum theIntFmt )
 {
 	target         = GL_TEXTURE_1D_ARRAY;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = numSlices;
@@ -176,8 +160,6 @@ bool	Texture :: createArray1D ( int theWidth, int numSlices, GLenum theFormat, G
 bool	Texture :: createArray2D ( int theWidth, int theHeight, int numSlices, GLenum theFormat, GLenum theIntFmt )
 {
 	target         = GL_TEXTURE_2D_ARRAY;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
@@ -353,29 +335,29 @@ bool	Texture :: loadRectangle ( const char * fileName )
 		return false;
 	}
 	
+	autoMipmaps = false;
+	
 	setParamsFromTexImage ( image, GL_TEXTURE_RECTANGLE );
 	
 	glGenTextures   ( 1, &id );
     glBindTexture   ( target, id );
-    glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                         // set 1-byte alignment
+    glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                  // set 1-byte alignment
     glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_REPEAT );    // set default params for texture
     glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_REPEAT );
 
 	if ( !image -> isCompressed () )			// not compressed image
 	{
 		glTexImage2D ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), image -> getGlType (), image -> imageData () );	
-		
-		if ( autoMipmaps )
-			glGenerateMipmap ( target );
 	}
 	else
 	{
-		int	mipmaps = image -> getNumLevels ();
+/*
+		int	mipmaps = 1;						// no mipmaps for rect textures
 		int	w       = width;
 		int	h       = height;
 		byte * ptr  = image -> imageData ( 0,  0 );
 		
-		glTexParameteri  ( target, GL_TEXTURE_MAX_LEVEL, mipmaps - 1 );
+//		glTexParameteri  ( target, GL_TEXTURE_MAX_LEVEL, mipmaps - 1 );
 		
 		for ( int i = 0; i < mipmaps; i++ )
 		{
@@ -390,21 +372,16 @@ bool	Texture :: loadRectangle ( const char * fileName )
 				h = 1;
 				
 			ptr += size;
-		}		
+		}
+*/
+		delete image;
+		
+		return false;
 	}
 	
-    if ( autoMipmaps )
-    {
-        glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-        glTexParameteri ( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    }
-    else
-    {
-        glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-        glTexParameteri ( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    }
-	
-    glBindTexture  ( target, 0 );
+    glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri ( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glBindTexture   ( target, 0 );
 
 	delete image;
 	
@@ -680,8 +657,6 @@ bool	Texture :: loadCubemap ( const char * f1, const char * f2, const char * f3,
 bool	Texture :: load1DRaw ( int theWidth, GLenum theFormat, GLenum theIntFmt, GLenum dataType, const void * theData )
 {
 	target         = GL_TEXTURE_1D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = 1;
@@ -691,7 +666,7 @@ bool	Texture :: load1DRaw ( int theWidth, GLenum theFormat, GLenum theIntFmt, GL
     glBindTexture   ( target, id );
 	glGenTextures   ( 1, &id );
     glBindTexture   ( target, id );
-    glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                         // set 1-byte alignment
+    glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                  // set 1-byte alignment
     glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_REPEAT );    // set default params for texture
     glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_REPEAT );
     glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -705,31 +680,6 @@ bool	Texture :: load1DRaw ( int theWidth, GLenum theFormat, GLenum theIntFmt, GL
 bool	Texture :: load2DRaw ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt, GLenum dataType, const void * theData )
 {
 	target         = GL_TEXTURE_2D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
-	fmt            = TexFormat ( theFormat, theIntFmt );
-	width          = theWidth;
-	height         = theHeight;
-	depth          = 1;	
-	
-	glGenTextures   ( 1, &id );
-    glBindTexture   ( target, id );
-    glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                         // set 1-byte alignment
-    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_REPEAT );    // set default params for texture
-    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri ( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexImage2D    ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), dataType, theData );
-    glBindTexture   ( target, 0 );
-	
-	return true;
-}
-
-bool	Texture :: loadRectRaw ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt, GLenum dataType, const void * theData )
-{
-	target         = GL_TEXTURE_RECTANGLE;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
@@ -748,11 +698,31 @@ bool	Texture :: loadRectRaw ( int theWidth, int theHeight, GLenum theFormat, GLe
 	return true;
 }
 
+bool	Texture :: loadRectRaw ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt, GLenum dataType, const void * theData )
+{
+	target         = GL_TEXTURE_RECTANGLE;
+	fmt            = TexFormat ( theFormat, theIntFmt );
+	width          = theWidth;
+	height         = theHeight;
+	depth          = 1;	
+	autoMipmaps    = false;
+	
+	glGenTextures   ( 1, &id );
+    glBindTexture   ( target, id );
+    glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                  // set 1-byte alignment
+    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );    // set default params for texture
+    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+    glTexParameteri ( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri ( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexImage2D    ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), dataType, theData );
+    glBindTexture   ( target, 0 );
+	
+	return true;
+}
+
 bool	Texture :: load3DRaw ( int theWidth, int theHeight, int theDepth, GLenum theFormat, GLenum theIntFmt, GLenum dataType, const void * theData )
 {
 	target         = GL_TEXTURE_3D;
-//	format         = theFormat;
-//	internalFormat = theIntFmt;
 	fmt            = TexFormat ( theFormat, theIntFmt );
 	width          = theWidth;
 	height         = theHeight;
@@ -806,21 +776,25 @@ bool	Texture :: saveAsTga ( const char * fileName )
 
 void	Texture :: bind ( int texUnit )
 {
-	glActiveTexture ( GL_TEXTURE0 + texUnit );			// XXX: may be use extension ???
+	unit = texUnit;				// store the unit
+
+	glActiveTexture ( GL_TEXTURE0 + texUnit );
 	glBindTexture   ( target, id );
 }
 
 void	Texture :: unbind ()
 {
-	glBindTexture ( target, 0 );
+	if ( unit != -1 )
+	{
+		glActiveTexture ( GL_TEXTURE0 + unit );
+		glBindTexture ( target, 0 );
+
+		unit = -1;			// not bound
+	}
 }
 
 void	Texture :: buildMipmaps ()
 {
-// XXX ???
-// Before you can generate mipmaps, you must set the base mipmap level 
-// (http://www.opengl.org/wiki/Texture#Mip_maps)
-
 	glTexParameteri  ( target, GL_TEXTURE_BASE_LEVEL, 0 );
 	glTexParameteri  ( target, GL_GENERATE_MIPMAP, GL_TRUE );
 	glGenerateMipmap ( target );						// should be bound

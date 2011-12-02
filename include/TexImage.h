@@ -2,39 +2,39 @@
 // Simple class to hold a texture
 // Supported 1/2/3-d textures and cubemaps, mipmaps
 //
-// Author: Alex V. Boreskoff <steps3d@gmail.com>, <steps3d@narod.ru>
+// Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
 
 #pragma once
 #ifndef __TEX_IMAGE__
 #define __TEX_IMAGE__
 
-#include	<GL/glew.h>
-#include    "TypeDefs.h"
+#include <GL/glew.h>
+#include "TypeDefs.h"
 
 class   TexImage
 {
 protected:
     int     width;
     int     height;
-    int		depth;
-    int		numImages;		// for cubemaps is 6
+    int	    depth;
+    int	    numImages;		// for cubemaps is 6
     int     numComponents;
     int     bytesPerChannel;
-    int     format;			// GL internal format
-	int		type;			// data type used for components
+    int     format;		// GL internal format
+    int     type;		// data type used for components
     byte  * data;
     int     numLevels;		// number of mipmaps
-	int		blockSize;		// for block-compressed images
-	int		imageSize;		// total size of one image (including mipmaps)
+    int     blockSize;		// for block-compressed images
+    int     imageSize;		// total size of one image (including mipmaps)
     bool    compressed;
-	bool	cubemap;
-	int		imageType;
+    bool    cubemap;
+    int     imageType;
 
-	TexImage ( int theWidth, int theHeight, int theDepth, int theNumComponents );
+    TexImage ( int theWidth, int theHeight, int theDepth, int theNumComponents );
 	
 public:
-    static TexImage * new2D                ( int w, int h, int components, int compType = typeByte ); 
+	static TexImage * new2D                ( int w, int h, int components, int compType = typeByte ); 
 	static TexImage * new2DCompressed      ( int w, int h, int format, int numLevels, int imageSize );
 	static TexImage * newCubemap           ( int w, int components, int compType = typeByte ); 
 	static TexImage * newCubemapCompressed ( int w, int format, int numLevels, int imageSize );

@@ -336,14 +336,8 @@ bool	Program :: loadSeparate ( GLenum type, Data * data )
 	linkRequired = false;
 	ok           = true;
 	
-    loadProgramLog ( program );
+	loadProgramLog ( program );
 
-/*
-printf ( "Log :%s\n", log.c_str () );
-GLint Result = GL_FALSE;
-glGetProgramiv(program, GL_LINK_STATUS, &Result);
-printf ( "Link status = %d\n", Result );	
-*/
 	free ( buf );
 	
 	return program != 0;
