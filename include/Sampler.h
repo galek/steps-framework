@@ -24,7 +24,7 @@ public:
 	
 	~Sampler ()
 	{
-		glDeleteSamplers ( 1, &id );
+		destroy ();
 	}
 	
 	bool	isOk () const
@@ -40,6 +40,13 @@ public:
 	void create ()
 	{
 		glGenSamplers ( 1, &id );
+	}
+
+	void destroy ()
+	{
+		glDeleteSamplers ( 1, &id );
+
+		id = 0;
 	}
 
 	void bind ( int unit )

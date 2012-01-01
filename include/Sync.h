@@ -27,6 +27,8 @@ public:
 		return sync != 0;
 	}
 
+	void destroy ();
+
 	void setFence ( GLenum condition = GL_SYNC_GPU_COMMANDS_COMPLETE, 
 			GLbitfield flags = 0 );
 

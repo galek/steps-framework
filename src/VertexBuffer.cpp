@@ -15,7 +15,17 @@ VertexBuffer :: VertexBuffer ()
 
 VertexBuffer :: ~VertexBuffer ()
 {
-	glDeleteBuffers ( 1, &id );
+	destroy ();
+}
+
+void	VertexBuffer :: destroy ()
+{
+	if ( id != 0 )
+		glDeleteBuffers ( 1, &id );
+
+	id     = 0;
+	ok     = false;
+	target = 0;
 }
 
 bool	VertexBuffer :: create ()

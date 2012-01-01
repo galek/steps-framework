@@ -25,7 +25,7 @@ public:
 	
 	~VertexArray ()
 	{
-		glDeleteVertexArrays ( 1, &id );
+		destroy ();
 	}
 	
 	bool	isOk () const
@@ -43,6 +43,14 @@ public:
 		glGenVertexArrays ( 1, &id );
 	}
 	
+	void	destroy ()
+	{
+		if ( id != 0 )
+			glDeleteVertexArrays ( 1, &id );
+
+		id = 0;
+	}
+
 	void	bind ()
 	{
 		glBindVertexArray ( id );

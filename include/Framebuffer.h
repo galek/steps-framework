@@ -62,6 +62,7 @@ public:
 		return depthBuffer;
 	}
 
+	void	destroy  ();
 	bool	isOk     () const;
 	bool	create   ();
 	bool	bind     ();

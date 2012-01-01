@@ -10,6 +10,7 @@
 #define	__VEC4__
 
 #include	"common.h"
+#include	"vec3.h"
 
 class	vec4
 {
@@ -20,6 +21,7 @@ public:
 	vec4 ( float v ) : x ( v ), y ( v ), z ( v ), w ( v ) {}
 	vec4 ( float px, float py, float pz = 0, float pw = 1 ) : x ( px ), y ( py ), z ( pz ), w ( pw ) {}
 	vec4 ( const vec4& v ) : x ( v.x ), y ( v.y ), z ( v.z ), w ( v.w ) {}
+	vec4 ( const vec3& v, float a ) : x ( v.x ), y (v.y ), z (v.z ), w ( a ) {}
 	explicit vec4 ( const float * v ) : x ( v [0] ), y ( v [1] ), z ( v [2] ), w ( v [3] ) {}
 
 	bool	operator == ( const vec4& v ) const

@@ -1,13 +1,13 @@
 //
 // Simple Perlin noise class
 //
-// Author: Alex V. Boreskoff
+// Author: Alexey V. Boreskov
 //
 
 #include	<stdlib.h>
 #include	"noise.h"
 
-Vector3D	Noise :: large ( -123.67f, 456.789f, 791.2345f );
+vec3	Noise :: large ( -123.67f, 456.789f, 791.2345f );
 
 static      float rotMatrix [3][3] =
 {
@@ -24,14 +24,14 @@ inline float rnd ()
 
 Noise :: Noise  ( int seed )
 {
-	p = new int      [n];
-	g = new Vector3D [n];
+	p = new int  [n];
+	g = new vec3 [n];
 
 	srand ( seed );
 
 	for ( int i = 0; i < n; i++ )
 	{
-		Vector3D	v;
+		vec3 v;
 
 		do
 		{
@@ -64,7 +64,7 @@ Noise :: ~Noise ()
 	delete g;
 }
 
-float	Noise :: turbulence ( const Vector3D& pt, int octaves ) const
+float	Noise :: turbulence ( const vec3& pt, int octaves ) const
 {
 	float	val  = 0;
 	float	sum  = 0;
@@ -81,7 +81,7 @@ float	Noise :: turbulence ( const Vector3D& pt, int octaves ) const
 
 }
 
-float	Noise :: turbulence ( const Vector3D& pt, float minFreq, float maxFreq ) const
+float	Noise :: turbulence ( const vec3& pt, float minFreq, float maxFreq ) const
 {
 	float	val = 0;
     float   sum = 0;
@@ -95,7 +95,7 @@ float	Noise :: turbulence ( const Vector3D& pt, float minFreq, float maxFreq ) c
 	return val / (float)sqrt ( sum );
 }
 
-float	Noise :: signedTurbulence ( const Vector3D& pt, float minFreq, float maxFreq ) const
+float	Noise :: signedTurbulence ( const vec3& pt, float minFreq, float maxFreq ) const
 {
 	float	val = 0;
     float   sum = 0;
@@ -109,11 +109,11 @@ float	Noise :: signedTurbulence ( const Vector3D& pt, float minFreq, float maxFr
 	return val / (float)sqrt ( sum );
 }
 
-float	Noise :: fBm ( const Vector3D& pt, float h, float lacunarity, float octaves ) const
+float	Noise :: fBm ( const vec3& pt, float h, float lacunarity, float octaves ) const
 {
-	float		value = 0;
-	Vector3D	p ( pt );
-	int			i = 0;
+	float value = 0;
+	vec3  p ( pt );
+	int   i = 0;
 
 	for ( ; i < octaves; i++ )
 	{

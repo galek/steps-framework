@@ -28,7 +28,24 @@ Texture :: Texture ( bool theAutoMipmaps )
 
 Texture :: ~Texture ()
 {
+	destroy ();
+}
+
+void	Texture :: destroy ()
+{
+	if ( id == 0 )
+		return;
+
 	glDeleteTextures ( 1, &id );
+
+	id          = 0;
+	width       = 0;
+	height      = 0;
+	depth       = 0;
+	target      = 0;
+	cubemap     = false;
+	compressed  = false;
+	unit        = -1;
 }
 
 bool	Texture :: create1D ( int theWidth, GLenum theFormat, GLenum theIntFmt )		// use TexFormat as input
@@ -87,6 +104,27 @@ bool	Texture :: createRectangle ( int theWidth, int theHeight, GLenum theFormat,
     glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );     // set default params for texture
     glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
     glPixelStorei   ( GL_UNPACK_ALIGNMENT, 1 );                  // set 1-byte alignment
+    glTexImage2D    ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), GL_UNSIGNED_BYTE, NULL );
+    glBindTexture   ( target, 0 );
+
+	return true;
+}
+
+bool	Texture :: createDepthRect ( int theWidth, int theHeight, GLenum theFormat, GLenum theIntFmt )
+{
+	target         = GL_TEXTURE_RECTANGLE;
+	fmt            = TexFormat ( theFormat, theIntFmt );
+	width          = theWidth;
+	height         = theHeight;
+	depth          = 1;	
+	autoMipmaps    = false;
+	
+	glGenTextures   ( 1, &id );
+    glBindTexture   ( target, id );
+    glTexParameteri ( target, GL_TEXTURE_WRAP_S, GL_CLAMP );     // set default params for texture
+    glTexParameteri ( target, GL_TEXTURE_WRAP_T, GL_CLAMP );
+	glTexParameteri ( GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+	glTexParameteri ( GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
     glTexImage2D    ( target, 0, getFormat ().getInternalFormat (), width, height, 0, getFormat ().getFormat (), GL_UNSIGNED_BYTE, NULL );
     glBindTexture   ( target, 0 );
 
@@ -806,21 +844,6 @@ void	Texture :: setSwizzle ( GLenum red, GLenum green, GLenum blue, GLenum alpha
 
 	glTexParameteriv ( target, GL_TEXTURE_SWIZZLE_RGBA, swizzle );
 }
-
-/*
-void	SamplerDepth :: copyFromDepthBuffer ()
-{
-	bool	saveBind = bound;
-	
-	if ( !saveBind )
-		bind ();
-		
-	glCopyTexSubImage2D ( target, 0, internalFormat, 0, 0, width, height, 0 );
-	
-	if ( !saveBind )
-		unbind ();
-}
-*/
 
 int		Texture :: maxSize ()
 {

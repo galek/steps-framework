@@ -38,7 +38,7 @@ CFLAGS   = $(CFLAGS) /EHsc $(DEBUG_COMPILE_FLAGS) -DWIN32 -D_CRT_SECURE_NO_DEPRE
 
 CFLAGS = $(CFLAGS) /Fo"$(OUTDIR)\\"
 
-MATH = $(OUTDIR)\vec2.obj $(OUTDIR)\vec3.obj $(OUTDIR)\vec4.obj $(OUTDIR)\mat2.obj $(OUTDIR)\mat3.obj $(OUTDIR)\mat4.obj $(OUTDIR)\quat.obj $(OUTDIR)\plane.obj $(OUTDIR)\bbox.obj $(OUTDIR)\randUtils.obj $(OUTDIR)\eig3.obj $(OUTDIR)\kdop.obj
+MATH = $(OUTDIR)\vec2.obj $(OUTDIR)\vec3.obj $(OUTDIR)\vec4.obj $(OUTDIR)\mat2.obj $(OUTDIR)\mat3.obj $(OUTDIR)\mat4.obj $(OUTDIR)\quat.obj $(OUTDIR)\plane.obj $(OUTDIR)\bbox.obj $(OUTDIR)\randUtils.obj $(OUTDIR)\eig3.obj $(OUTDIR)\kdop.obj $(OUTDIR)\noise.obj
 TEXT = $(OUTDIR)\Texture.obj $(OUTDIR)\TexImage.obj $(OUTDIR)\TgaEncoder.obj $(OUTDIR)\TgaDecoder.obj $(OUTDIR)\DdsDecoder.obj $(OUTDIR)\BmpDecoder.obj $(OUTDIR)\JpegDecoder.obj $(OUTDIR)\PngDecoder.obj $(OUTDIR)\Resources.obj $(OUTDIR)\FileSystem.obj $(OUTDIR)\ZipFileSystem.obj $(OUTDIR)\TexFormat.obj
 WRAP = $(OUTDIR)\Data.obj $(OUTDIR)\Program.obj $(OUTDIR)\VertexBuffer.obj $(OUTDIR)\Framebuffer.obj $(OUTDIR)\stringUtils.obj $(OUTDIR)\glUtilities.obj  $(OUTDIR)\UbAccessor.obj $(OUTDIR)\Sampler.obj $(OUTDIR)\half.obj $(OUTDIR)\ScreenQuad.obj $(OUTDIR)\Sync.obj $(OUTDIR)\Query.obj $(OUTDIR)\TransformFeedback4.obj $(OUTDIR)\Log.obj $(OUTDIR)\Pipeline.obj
 

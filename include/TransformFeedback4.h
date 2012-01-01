@@ -22,8 +22,7 @@ public:
 	
 	~TransformFeedback4 ()
 	{
-		if ( id != 0 )
-			glDeleteTransformFeedbacks ( 1, &id );
+		destroy ();
 	}
 	
 	bool	isOk () const
@@ -31,6 +30,14 @@ public:
 		return id != 0;
 	}
 	
+	void	destroy ()
+	{
+		if ( id != 0 )
+			glDeleteTransformFeedbacks ( 1, &id );
+
+		id = 0;
+	}
+
 	void	create ()
 	{
 		glGenTransformFeedbacks ( 1, &id );

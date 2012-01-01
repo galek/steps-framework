@@ -31,9 +31,10 @@ public:
 
 	string getLog () const;
 
-	bool	create ();
-	bool	bind   ();
-	bool	unbind ();
+	bool	create  ();
+	void	destroy ();
+	bool	bind    ();
+	bool	unbind  ();
 
 	bool	setStage         ( GLbitfield mask, Program * );
 	bool	setAllStages     ( Program * );

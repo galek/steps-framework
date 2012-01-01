@@ -44,6 +44,7 @@ public:
     Program  ();
     ~Program ();
 
+	void destroy ();
 												// load all shaders separated by -- shader-type
 	bool	loadProgram           ( const string& fileName );
 	bool	loadProgram           ( Data * data );
@@ -58,8 +59,6 @@ public:
                                                 // load shaders and link
     bool    loadShaders ( const char * vertexFileName, const char * fragmentFileName );
     bool    loadShaders ( Data * vertexShaderData, Data * fragmentShaderData );
-
-    void    clear ();	 						// remove all shaders and free all objects
 
 	GLuint	getProgram () const
 	{

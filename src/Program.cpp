@@ -32,7 +32,7 @@ Program :: Program ()
 
 Program :: ~Program ()
 {
-    clear ();
+    destroy ();
 }
 
 bool	Program :: loadProgram ( const string& fileName )
@@ -499,7 +499,7 @@ bool    Program :: checkGlError ()
     return false;
 }
 
-void    Program :: clear ()
+void    Program :: destroy ()
 {
     glDeleteProgram ( program           );                  // it will also detach shaders
     glDeleteShader  ( vertexShader      );

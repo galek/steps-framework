@@ -40,9 +40,10 @@ public:
 		return target;
 	}
 	
-	bool	create ();
-	void	bind   ( GLenum theTarget );
-	void	unbind ();
+	bool	create  ();
+	void	destroy ();
+	void	bind    ( GLenum theTarget );
+	void	unbind  ();
 	
 	void	setData    ( unsigned size, const void * ptr, GLenum usage );
 	void	setSubData ( unsigned offs, unsigned size, const void * ptr );

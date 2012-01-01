@@ -36,24 +36,18 @@ private:
 		return 0;
 	}
 
-/*
-	float	ddrop ( float t ) const	// 1st derivative of drop
+	float	omega ( long i, long j, long k, const vec3& pt ) const
 	{
-			// ???
-	}
-*/
-	float	omega ( long i, long j, long k, const Vector3D& pt ) const
-	{
-		return (g [fold ( i, j, k )] & pt) * drop ( pt.x ) * drop ( pt.y ) * drop ( pt.z );
+		return dot(g [fold ( i, j, k )], pt) * drop ( pt.x ) * drop ( pt.y ) * drop ( pt.z );
 	}
 
 /*
-	Vector3D	dOmega  ( long i, long j, long k, const Vector3D& pt ) const
+	vec3	dOmega  ( long i, long j, long k, const vec3& pt ) const
 	{
-    	float		v ( g [fold ( i, j, k)] & pt );
-		Vector3D	d ( drop ( pt.x ), drop ( pt.y ), drop ( pt.z ) );
+    	float		v ( dot(g [fold ( i, j, k)], pt ) );
+		vec3	d ( drop ( pt.x ), drop ( pt.y ), drop ( pt.z ) );
 
-		return v * Vector3D ( ddrop ( pt.x ) * d.y * d.z,
+		return v * vec3 ( ddrop ( pt.x ) * d.y * d.z,
 							  ddrop ( pt.y ) * d.x * d.z,
 							  ddrop ( pt.z ) * d.x * d.y );
 	}
@@ -64,7 +58,7 @@ public:
 	Noise  ( int seed = -1 );
 	~Noise ();
 
-	float	noise ( const Vector3D& pt ) const
+	float	noise ( const vec3& pt ) const
 	{
 		long	ip  = (long) floor ( pt.x );
 		long	jp  = (long) floor ( pt.y );
@@ -74,7 +68,7 @@ public:
 		for ( register long i = ip; i <= ip + 1; i++ )
 			for ( register long j = jp; j <= jp + 1; j++ )
 				for ( register long k = kp; k <= kp + 1; k++ )
-					sum += omega ( i, j, k, Vector3D ( pt.x - i, pt.y - j, pt.z - k ) );
+					sum += omega ( i, j, k, vec3 ( pt.x - i, pt.y - j, pt.z - k ) );
 
 		return sum;
 	}

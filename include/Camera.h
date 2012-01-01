@@ -17,11 +17,11 @@ class	quat;
 
 class   Camera
 {
+	mat4		proj;				// projection matrix for the camera (perspective projection)
+	mat4		mv;					// model-view matrix (rotation and translation)
     vec3		pos;				// camera position
 	vec3		rotation;			// yaw, pitch and roll angles in radians
 	mat3		rot;				// rotation matrix corresponding to rotation andles
-    vec3		viewDir;			// viewing direction (normalized)
-	mat4		proj;				// prjection matrix for the camera (perspective projection, rotation and tranlation)
     bool		rightHanded;		// whether camera is righthanded
     bool		infinite;			// whether it uses zFar equal infinity
     float		fov;				// field of view angle (in degrees)
@@ -35,7 +35,7 @@ public:
     Camera ( const vec3& p, float yaw, float pitch, float roll,
              float aFov = 60, float nearZ = 0.1, float farZ = 100, bool rHanded = true );
 
-    Camera ( const vec3& p, const quat& oerintation,
+    Camera ( const vec3& p, const quat& orintation,
              float aFov = 60, float nearZ = 0.1, float farZ = 100, bool rHanded = true );
 
     Camera ( const Camera& camera );
@@ -107,6 +107,11 @@ public:
 		return proj;
 	}
 	
+	const mat4& getModelview () const
+	{
+		return mv;
+	}
+	
 	quat	getOrientation () const;
 
 /*
@@ -146,12 +151,6 @@ public:
 
 		computeMatrix ();					// XXX-since clipping planes must be rebuild
     }
-/*
-	float	getProjAt ( int i, int j ) const
-	{
-		return proj [i+j*4];
-	}
-*/	
 											// set orientation either via Euler angles or
 											// via quaternion
     void    setEulerAngles  ( float theYaw, float thePitch, float theRoll );
@@ -165,8 +164,6 @@ public:
     										// transform camera
     void    mirror          ( const plane& );
 //	void	transform       ( const Transform3D& );
-
-	void	apply ();						// sets camera transform for current context, fill proj matrix
 
 											// return poly (quad) for intersection of plane paraller to zNear plane with given z
 	void	getPlanePolyForZ ( float z, vec3 * poly ) const;

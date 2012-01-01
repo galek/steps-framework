@@ -34,6 +34,7 @@ class	Texture
 public:
 	Texture  ( bool theAutoMipmaps = true );
 	~Texture ();
+
 	
 	bool	isOk () const
 	{
@@ -84,12 +85,15 @@ public:
 	{
 		return fmt;
 	}
+	
+	void	destroy ();
 							// create empty texture with given properties
 	bool	create1D        ( int theWidth, GLenum fmt, GLenum intFmt );
 	bool	create2D        ( int theWidth, int theHeight, GLenum fmt, GLenum intFmt );
 	bool	createRectangle ( int theWidth, int theHeight, GLenum fmt, GLenum intFmt );
 	bool	create3D        ( int theWidth, int theHeight, int theDepth, GLenum fmt, GLenum intFmt );
 	bool	createCubemap   ( int theWidth, GLenum fmt, GLenum intFmt );
+	bool	createDepthRect ( int theWidth, int theHeight, GLenum fmt = GL_DEPTH_COMPONENT, GLenum intFmt = GL_DEPTH_COMPONENT );
 	
 							// create empty texture arrays
 	bool	createArray1D ( int theWidth, int numSlices, GLenum fmt, GLenum intFmt );
@@ -119,8 +123,6 @@ public:
 	void	setSwizzle   ( GLenum red, GLenum green, GLenum blue, GLenum alpha );
 	void	setBaseLevel ( int level );	// ??? add ivar and getter ???
 	void	setMaxLevel  ( int level );
-	
-// void	SamplerDepth :: copyFromDepthBuffer ()
 	
 	static int	maxSize ();
 

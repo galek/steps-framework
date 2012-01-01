@@ -4,6 +4,7 @@
 // Author: Alexey V. Boreskov <steps3d@narod.ru>, <steps3d@gmail.com>
 //
 
+#include	<memory.h>
 #include    "Camera.h"
 #include	"quat.h"
 #include	"plane.h"
@@ -37,7 +38,7 @@ Camera :: Camera ( const vec3& p, const quat& orientation,
 
 Camera :: Camera ( const Camera& camera )
 {
-    zNear       = camera.zNear;
+	zNear       = camera.zNear;
     zFar        = camera.zFar;
     fov         = camera.fov;
     pos         = camera.pos;
@@ -104,24 +105,25 @@ void	Camera :: setViewSize ( int theWidth, int theHeight, float theFov )
 void    Camera :: computeMatrix ()
 {
 	rot  = mat3 :: rotateEuler ( rotation.x, rotation.y, rotation.z );
-	proj = perspective ( fov, aspect, zNear, zFar ) * mat4 ( rot ) * mat4 :: translate ( -pos );
+	mv   =  mat4 ( rot ) * mat4 :: translate ( -pos );
+	proj = perspective ( fov, aspect, zNear, zFar );
 }
 
 void    Camera :: mirror ( const plane& mirror )		// XXX
 {
-	vec3	viewDir = getViewDir ();
+	vec3	vDir    = getViewDir ();
 	vec3	sideDir = getSideDir ();
 	vec3	upDir   = getUpDir   ();
 	
     mirror.reflectPos ( pos );
-    mirror.reflectDir ( viewDir );
+    mirror.reflectDir ( vDir );
     mirror.reflectDir ( upDir );
     mirror.reflectDir ( sideDir );
 	
 					// now build rotation matrix from vectors
-	mat3 r ( sideDir.x, upDir.x, -viewDir.x,
-	         sideDir.y, upDir.y, -viewDir.y,
-		     sideDir.z, upDir.z, -viewDir.z );
+	mat3 r ( sideDir.x, upDir.x, -vDir.x,
+	         sideDir.y, upDir.y, -vDir.y,
+		     sideDir.z, upDir.z, -vDir.z );
 			 
 	rotation    = eulerFromMatrix ( r );
     rightHanded = !rightHanded;
@@ -134,12 +136,12 @@ void	Camera :: getPlanePolyForZ ( float z, vec3 * poly ) const
 	float	halfAngle = 0.5f * M_PI * fov / 180.0f;
     float	f         = 1 / (float)tan ( halfAngle );
 	vec3	base ( z * aspect / f, z / f, z );
-	vec3	viewDir = getViewDir ();
+	vec3	vDir    = getViewDir ();
 	vec3	sideDir = getSideDir ();
 	vec3	upDir   = getUpDir   ();
 	
-	poly [0] = pos + base.z * viewDir + base.x * sideDir + base.y * upDir;
-	poly [1] = pos + base.z * viewDir + base.x * sideDir - base.y * upDir; 	//vec3 (  base.x, -base.y, base.z );
-	poly [2] = pos + base.z * viewDir - base.x * sideDir - base.y * upDir;	//vec3 ( -base.x, -base.y, base.z );
-	poly [3] = pos + base.z * viewDir - base.x * sideDir + base.y * upDir;	//vec3 ( -base.x,  base.y, base.z );
+	poly [0] = pos + base.z * vDir - base.x * sideDir - base.y * upDir;
+	poly [1] = pos + base.z * vDir - base.x * sideDir + base.y * upDir;
+	poly [2] = pos + base.z * vDir + base.x * sideDir + base.y * upDir;
+	poly [3] = pos + base.z * vDir + base.x * sideDir - base.y * upDir;
 }

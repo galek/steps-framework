@@ -60,6 +60,7 @@ TexFormat :: TexFormat ( GLenum theFormat, GLenum theIntFormat )
 		case GL_RED_INTEGER:
 		case GL_GREEN_INTEGER:
 		case GL_BLUE_INTEGER:
+		case GL_DEPTH_COMPONENT:
 		
 			numComponents = 1;
 			break;
@@ -142,6 +143,18 @@ TexFormat :: TexFormat ( GLenum theFormat, GLenum theIntFormat )
 			bitsPerChannel = 32;
 			break;
 	
+		case GL_DEPTH_COMPONENT16:
+				bitsPerChannel = 16;
+				break;
+
+		case GL_DEPTH_COMPONENT24:
+				bitsPerChannel = 24;
+				break;
+
+		case GL_DEPTH_COMPONENT32:
+				bitsPerChannel = 32;
+				break;
+
 		default:
 			break;
 	}
@@ -631,7 +644,7 @@ TexFormat TexFormat :: srgbaFormat ()
 	return fmt;
 }
 
-TexFormat TexFormat :: depthNormalied ( int theNumBits )
+TexFormat TexFormat :: depthNormalized ( int theNumBits )
 {
 	TexFormat	fmt;
 	

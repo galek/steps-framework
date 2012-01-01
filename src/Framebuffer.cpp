@@ -25,6 +25,11 @@ FrameBuffer :: FrameBuffer  ( int theWidth, int theHeight, int theFlags )
 
 FrameBuffer :: ~FrameBuffer ()
 {
+	destroy ();
+}
+
+void	FrameBuffer :: destroy ()
+{
 	if ( depthBuffer != 0 )
 		glDeleteRenderbuffers ( 1, &depthBuffer );
 
@@ -33,6 +38,10 @@ FrameBuffer :: ~FrameBuffer ()
 
 	if ( frameBuffer != 0 )
 		glDeleteFramebuffers ( 1, &frameBuffer );
+
+	depthBuffer   = 0;
+	stencilBuffer = 0;
+	frameBuffer   = 0;
 }
 
 bool	FrameBuffer :: create ()

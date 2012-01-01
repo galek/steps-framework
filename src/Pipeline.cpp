@@ -17,8 +17,14 @@ Pipeline :: Pipeline ()
 
 Pipeline :: ~Pipeline ()
 {
+}
+
+void	Pipeline :: destroy ()
+{
 	if ( id != 0 )
 		glDeleteProgramPipelines ( 1, &id );
+
+	id = 0;
 }
 
 bool	Pipeline :: create ()

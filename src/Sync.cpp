@@ -8,8 +8,15 @@ Sync :: Sync ()
 
 Sync :: ~Sync ()
 {
+	destroy ();
+}
+
+void Sync :: destroy ()
+{
 	if ( sync )
 		glDeleteSync ( sync );
+
+	sync = 0;
 }
 
 void Sync :: setFence ( GLenum condition, GLbitfield flags )

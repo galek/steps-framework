@@ -80,7 +80,7 @@ public:
 	static TexFormat srgbaFormat ();
 	
 									// create specific depth formats
-	static TexFormat depthNormalied ( int theNumBits );
+	static TexFormat depthNormalized ( int theNumBits );
 	static TexFormat depthFloat     ();
 	
 									// create specific packed depth-stencil formats
