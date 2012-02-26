@@ -34,7 +34,6 @@ class	Texture
 public:
 	Texture  ( bool theAutoMipmaps = true );
 	~Texture ();
-
 	
 	bool	isOk () const
 	{

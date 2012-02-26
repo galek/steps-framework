@@ -1,5 +1,5 @@
 //
-// Several clases to hold simple meshes.
+// Class to hold simple meshes.
 // For every vertex position, texture coordinate and TBN basis is stored
 //
 
