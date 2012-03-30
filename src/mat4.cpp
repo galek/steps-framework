@@ -453,6 +453,13 @@ bool	mat4 :: invert ()
 #undef MAT
 #undef SWAP_ROWS
 
+
+/*
+ * Another variant
+ *
+ 
+
+*/
 	return true;
 }
 
@@ -766,4 +773,14 @@ vec3 eulerFromMatrix ( const mat4& m )
 	}
 
 	return angle;
+}
+
+vec4	unproject ( const vec3& win, const mat4& mv, const mat4& proj, int viewport [4] )
+{
+	mat4	m = proj * mv;
+	vec4	v ( 2*(win.x - viewport [0]) / viewport[2] - 1, 2*(win.y - viewport [1])/viewport [3] - 1, 2*win.z - 1, 1 );
+	
+	m.invert ();
+	
+	return m * v;
 }

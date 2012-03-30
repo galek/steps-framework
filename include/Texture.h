@@ -15,6 +15,7 @@
 using namespace std;
 
 class	TexImage;
+class	vec4;
 
 class	Texture
 {
@@ -113,15 +114,16 @@ public:
 	bool	loadRectRaw ( int theWidth, int theHeight, GLenum fmt, GLenum intFmt, GLenum dataType, const void * theData );
 	bool	load3DRaw   ( int theWidth, int theHeight, int theDepth, GLenum fmt, GLenum intFmt, GLenum dataType, const void * theData );
 	
-	bool	saveAsTga ( const char * fileName );
+	bool	saveAsTga   ( const char * fileName );
 	
 	void	bind   ( int texUnit = 0 );
 	void	unbind ();
 	
-	void	buildMipmaps ();
-	void	setSwizzle   ( GLenum red, GLenum green, GLenum blue, GLenum alpha );
-	void	setBaseLevel ( int level );	// ??? add ivar and getter ???
-	void	setMaxLevel  ( int level );
+	void	buildMipmaps  ();
+	void	setSwizzle     ( GLenum red, GLenum green, GLenum blue, GLenum alpha );
+	void	setBaseLevel   ( int level );	// ??? add ivar and getter ???
+	void	setMaxLevel    ( int level );
+	void	setBorderColor ( const vec4& color );
 	
 	static int	maxSize ();
 

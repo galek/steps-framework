@@ -588,3 +588,45 @@ BasicMesh * createKnot  ( float r1, float r2, int rings, int sides )
 	
 	return mesh;
 }
+
+BasicMesh * createParamatric ( float sMin, float sMax, float tMin, float tMax, int n1, int n2, vec3 (*f)( const vec2& u ) )
+{
+	float	ds             = (sMax - sMin) / n1;
+	float	dt             = (tMax - tMin) / n2;
+	int	numVertices        = (n1+1)*(n2+1);
+	int	numTris            = n1 * n2 * 2;
+	BasicVertex * vertices = new BasicVertex [numVertices];
+	int         * faces    = new int [3*2*n1*n2];
+	int			  index    = 0;
+	
+	for ( int i = 0; i <= n1; i++ )
+		for ( int j = 0; j <= n2; j++ )
+		{
+			vec2	uv ( sMin + i*ds, tMin + j*dt );
+			vec3	p  = f ( uv );
+			
+			vertices [index].pos = p;
+			vertices [index].tex = uv;
+						// XXX
+			index++;
+		}
+	
+						// now create indices
+	index = 0;
+	
+	for ( int i = 0; i < n1; i++ )
+		for ( int j = 0; j < n2; j++ )
+		{
+			int	i1 = i + 1;
+			int	j1 = j + 1;
+
+			faces [index++] = i  * (n1+1) + j;
+			faces [index++] = i1 * (n1+1) + j;
+			faces [index++] = i1 * (n1+1) + j1;
+			faces [index++] = i  * (n1+1) + j;
+			faces [index++] = i1 * (n1+1) + j1;
+			faces [index++] = i  * (n1+1) + j1;
+		}
+		
+	return NULL;
+}

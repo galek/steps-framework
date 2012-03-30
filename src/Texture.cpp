@@ -12,6 +12,7 @@
 #include	"glUtilities.h"
 #include	"stringUtils.h"
 #include	"TgaEncoder.h"
+#include	"vec4.h"
 
 Texture :: Texture ( bool theAutoMipmaps )
 {
@@ -884,3 +885,9 @@ void	Texture :: setMaxLevel ( int level )
 {
 	glTexParameteri ( target, GL_TEXTURE_MAX_LEVEL, level );
 }
+
+void	Texture :: 	setBorderColor ( const vec4& color )
+{
+	glTexParameterfv ( target, GL_TEXTURE_BORDER_COLOR, color );
+}
+

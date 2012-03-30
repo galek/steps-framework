@@ -132,6 +132,7 @@ mat4 ortho        ( float left, float right, float bottom, float top, float zNea
 mat4 frustum      ( float left, float right, float bottom, float top, float zNear, float zFar);
 mat4 perspective  ( float fov, float aspect, float zNear, float zFar );
 mat4 lookAt       ( const vec3& eye, const vec3& center, const vec3& up );
+vec4 unproject    ( const vec3& win, const mat4& mv, const mat4& proj, int viewport [4] );
 
 					// build normal matrix from model-view
 mat3 normalMatrix ( const mat4& mv );
