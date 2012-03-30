@@ -32,6 +32,9 @@ public:
 		   float a8,  float a9,  float a10, float a11,		// third row
 		   float a12, float a13, float a14, float a15 );	// fourth row
 
+    mat4& initFromGl  ( const float * a );					// init from matrix from OpenGL column-major matrix
+    void  toGl        ( float * a );						// convert to OpenGL column-major format
+
 	const float * data () const
 	{
 		return m;
