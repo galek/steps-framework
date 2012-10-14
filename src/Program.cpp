@@ -951,7 +951,7 @@ bool	Program :: isGeometryShaderSupported ()
 
 bool	Program :: isTesselationShaderSupported ()
 {
-	return glewGetExtension ( "GL_ARB_tesselation_shader" );
+	return GLEW_ARB_tessellation_shader != 0;
 }
 
 string  Program :: version ()

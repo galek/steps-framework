@@ -34,14 +34,20 @@ public:
 
     plane ( const vec3& normal, float d ) : n ( normal ), dist ( d ), nearPointMask ( -1 )
     {
-        n.normalize ();
+	float	len = n.length ();
+
+        n /= len;
+	d /= len;
 
         computeNearPointMaskAndMainAxis ();
     }
                                 // build plane from plane equation
     plane ( float nx, float ny, float nz, float d ) : n (nx, ny, nz), dist ( d ), nearPointMask ( -1 )
     {
-        n.normalize ();
+	float	len = n.length ();
+
+        n /= len;
+	d /= len;
 
         computeNearPointMaskAndMainAxis ();
     }
