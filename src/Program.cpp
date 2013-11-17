@@ -53,6 +53,8 @@ bool	Program :: loadProgram ( const string& fileName )
 
 bool	Program :: loadProgram ( Data * data )
 {
+	glGetError ();		// clear OpenGL error
+
 	struct Chunk
 	{
 		const char * name;
@@ -483,13 +485,11 @@ void    Program :: unbind ()
 bool    Program :: checkGlError ()
 {
     bool    retCode = true;
- 	GLenum  glErr   = glGetError();
+	const char * err = getGlErrorString ();
 
-    if ( glErr == GL_NO_ERROR )
+    if ( err == NULL )
     	return retCode;
 
-	const char * err = getGlErrorString ();
-	
 	if ( err != NULL )
 	{
 		glError = err;
@@ -862,6 +862,23 @@ bool	Program :: setAttrPtr ( const char * name, int numComponents, GLsizei strid
 {
 	int	loc = indexForAttrName ( name );
 
+	if ( loc < 0 )
+		return false;
+		
+	glVertexAttribPointer ( loc, 					// index
+							numComponents, 			// number of values per vertex
+							type, 					// type (GL_FLOAT)
+							normalized ? GL_TRUE : GL_FALSE,
+							stride, 				// stride (offset to next vertex data)
+							(const GLvoid*) ptr );
+		
+	glEnableVertexAttribArray ( loc );
+	
+	return true;
+}
+
+bool	Program :: setAttrPtr ( int loc, int numComponents, GLsizei stride, void * ptr, GLenum type, bool normalized )
+{
 	if ( loc < 0 )
 		return false;
 		

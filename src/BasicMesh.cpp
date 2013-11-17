@@ -86,6 +86,15 @@ void	BasicMesh :: render ()
 	vao.unbind ();
 }
 
+void	BasicMesh :: renderInstanced ( int primCount )
+{
+	vao.bind ();
+	
+	glDrawElementsInstanced ( GL_TRIANGLES, 3*numTriangles, GL_UNSIGNED_INT, NULL, primCount );
+
+	vao.unbind ();
+}
+
 void	computeNormals  ( BasicVertex * vertices, const int * indices, int nv, int nt )
 {
 	for ( int face = 0; face < nt; face++ )
@@ -522,15 +531,14 @@ static inline	vec3	knot1D ( float t )
 	return r * vec3 ( cos ( phi ) * sin ( 2*t ), cos ( phi ) * cos ( 2*t ), sin ( phi ) );
 }
 
-static inline	vec3	knot ( float u, float v, vec3& n )
+static inline	vec3	knot ( float u, float v, vec3& n, vec3& t, vec3& b )
 {
-	vec3	t, b;
-
 	t = normalize ( knot1D (u + 0.01) - knot1D (u - 0.01) );
 	b = normalize ( cross ( t, vec3 ( 0, 0, 1 ) ) );
 	n = cross ( t, b );
 
 	n = sin (v) * b + cos (v) * n;
+	b = cross ( n, t );
 	
 	return knot1D ( u ) + 0.6 * n;
 }
@@ -556,7 +564,7 @@ BasicMesh * createKnot  ( float r1, float r2, int rings, int sides )
 		{
 			float psi = j * sideDelta;
 
-			vertices [index].pos = knot ( phi, psi, vertices [index].n );
+			vertices [index].pos = knot ( phi, psi, vertices [index].n, vertices [index].t, vertices [index].b );
 			vertices [index].tex = vec2 ( j * invSides, i * invRings );
       		index++;
 		}
@@ -578,9 +586,6 @@ BasicMesh * createKnot  ( float r1, float r2, int rings, int sides )
 			faces [index++] = i  * (sides+1) + j1;
 		}
 		
-	for ( i = 0; i < numTris; i++ )
-		computeTangents ( vertices [faces[3*i]], vertices [faces [3*i+1]], vertices [faces [3*i+2]] );
-	
 	BasicMesh * mesh = new BasicMesh ( vertices, faces, numVertices, numTris );
 	
 	delete vertices;

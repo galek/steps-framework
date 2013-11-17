@@ -39,6 +39,7 @@ public:
 	BasicMesh ( BasicVertex * vertices, const int * indices, int nv, int nt );
 	
 	void	render ();
+	void	renderInstanced ( int primCount );
 	
 	const string& getName () const
 	{
@@ -118,8 +119,6 @@ inline vec3 kleinBottle ( const vec2& uv )
 
 inline	vec3 mobiusStrip ( const vec2& uv )
 {
-//	float u = domain.x;
-//	float t = domain.y;
 	float major = 1.25;
 	float a     = 0.125f;
 	float b     = 0.5f;

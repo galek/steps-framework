@@ -130,7 +130,10 @@ public:
 	void	bindBufferToIndex          ( int uniformBlockIndex, int bindingIndex );
 
     int     indexForAttrName   ( const char * name );
-	bool	setAttrPtr         ( const char * name, int numComponents, GLsizei stride, void * ptr, GLenum type = GL_FLOAT, bool normalized = false );
+	bool	setAttrPtr         ( const char * name, int numComponents, GLsizei stride, void * ptr, 
+	                             GLenum type = GL_FLOAT, bool normalized = false );
+	bool	setAttrPtr         ( int location, int numComponents, GLsizei stride, void * ptr, 
+	                             GLenum type = GL_FLOAT, bool normalized = false );
 	
 														// bind texture units to uniforms
     bool	setTexture         ( const char * name, int texUnit );

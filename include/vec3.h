@@ -10,6 +10,7 @@
 #define	__VEC3__
 
 #include	"common.h"
+#include	"vec2.h"
 
 class	vec3
 {
@@ -35,6 +36,11 @@ public:
 	bool	equalWithTolerance ( const vec3& v, float eps = EPS )
 	{
 		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps && fabs ( z - v.z ) < eps;
+	}
+	
+	vec2	xy () const
+	{
+		return vec2 ( x, y );
 	}
 	
 	vec3& operator = ( const vec3& v )
