@@ -11,7 +11,7 @@ LIBS       = -L/usr/X11R6/lib -L$(GLUTPATH)/lib -lglut -lGL -lXt -lX11 -lm -ljpe
 
 MATH = build/vec2.o build/vec3.o build/vec4.o build/mat2.o build/mat3.o build/mat4.o build/quat.o build/plane.o build/bbox.o build/randUtils.o build/eig3.o build/kdop.o
 TEXT = build/Texture.o build/TexImage.o build/TgaEncoder.o build/TgaDecoder.o build/DdsDecoder.o build/BmpDecoder.o build/JpegDecoder.o build/PngDecoder.o build/Resources.o build/FileSystem.o build/ZipFileSystem.o build/TexFormat.o
-WRAP = build/Data.o build/Program.o build/VertexBuffer.o build/Framebuffer.o build/stringUtils.o build/glUtilities.o build/UbAccessor.o build/Sampler.o build/half.o build/ScreenQuad.o build/Sync.o build/Query.o build/Pipeline.o
+WRAP = build/Data.o build/Program.o build/VertexBuffer.o build/Framebuffer.o build/stringUtils.o build/glUtilities.o build/UbAccessor.o build/Sampler.o build/half.o build/ScreenQuad.o build/Sync.o build/Query.o build/Pipeline.o build/BasicMesh.o build/GlutWindow.o
 
 all: build steps.a
 

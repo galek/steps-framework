@@ -6,6 +6,7 @@
 	#include	<GL/glxew.h>
 #endif
 
+#include	<stdio.h>
 #include	"GlutWindow.h"
 #include	"Program.h"
 #include	"mat4.h"

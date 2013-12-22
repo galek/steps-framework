@@ -3,6 +3,7 @@
 //
 
 #include	<map>
+#include	<stdio.h>
 #include	<GL/glew.h>
 
 #ifdef	_WIN32

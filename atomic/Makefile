@@ -9,15 +9,13 @@ CONLYFLAGS = -g -I/usr/include/GL -Wall -I$(GLUTPATH)/include/GL
 LIBS       = -L/usr/X11R6/lib -L$(GLUTPATH)/lib -lglut -lGL -lXt -lX11 -lm -ljpeg -lz -lpng -lGLEW
 STEPS_PATH = ..
 CFLAGS     = -x c++ -g -I/usr/include/GL -Wall -I$(GLUTPATH)/include/GL -I. -I$(STEPS_PATH)/include
+CC = g++
 
-ALL = 
+ALL = atomic-counters
 
 all: $(ALL)
 
-test-pipeline: test-pipeline.o
-	$(CC) $(LDFLAGS) $^ $(STEPS_PATH)/build/steps.a -o $@ $(LIBS) -lc
-
-test-pipeline-2: test-pipeline-2.o 
+atomic-counters: atomic-counters.o
 	$(CC) $(LDFLAGS) $^ $(STEPS_PATH)/build/steps.a -o $@ $(LIBS) -lc
 
 
