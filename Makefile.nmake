@@ -24,9 +24,10 @@ LINK            = link
 LIB             = lib
 OPENGL          = opengl32.lib freeglut_static.lib
 
-FREEGLUT = ../../freeglut
-GLEW     = ../glew-1.7.0
-INC = $(INC) -Iinclude -Icontrib -I$(GLEW)/include -Ilibs
+MY_LIBS  = f:/Libraries
+FREEGLUT = $(MY_LIBS)/freeglut
+GLEW     = $(MY_LIBS)/glew-1.10.0
+INC = $(INC) -I$(FREEGLUT) -Iinclude -Icontrib -I$(GLEW)/include -Ilibs
 
 !if defined (STATIC)
 LLDLIBS  = $(LFLAGS) $(DEBUG_LINK_FLAGS) $(OPENGL) glew32s.lib /LIBPATH:$(FREEGLUT)/lib/win32-vc2008 /LIBPATH:$(GLEW)/lib /LIBPATH:libs zlib.lib libpng.lib libjpeg.lib
@@ -40,7 +41,7 @@ CFLAGS = $(CFLAGS) /Fo"$(OUTDIR)\\"
 
 MATH = $(OUTDIR)\vec2.obj $(OUTDIR)\vec3.obj $(OUTDIR)\vec4.obj $(OUTDIR)\mat2.obj $(OUTDIR)\mat3.obj $(OUTDIR)\mat4.obj $(OUTDIR)\quat.obj $(OUTDIR)\plane.obj $(OUTDIR)\bbox.obj $(OUTDIR)\randUtils.obj $(OUTDIR)\eig3.obj $(OUTDIR)\kdop.obj $(OUTDIR)\noise.obj
 TEXT = $(OUTDIR)\Texture.obj $(OUTDIR)\TexImage.obj $(OUTDIR)\TgaEncoder.obj $(OUTDIR)\TgaDecoder.obj $(OUTDIR)\DdsDecoder.obj $(OUTDIR)\BmpDecoder.obj $(OUTDIR)\JpegDecoder.obj $(OUTDIR)\PngDecoder.obj $(OUTDIR)\Resources.obj $(OUTDIR)\FileSystem.obj $(OUTDIR)\ZipFileSystem.obj $(OUTDIR)\TexFormat.obj
-WRAP = $(OUTDIR)\Data.obj $(OUTDIR)\Program.obj $(OUTDIR)\VertexBuffer.obj $(OUTDIR)\Framebuffer.obj $(OUTDIR)\stringUtils.obj $(OUTDIR)\glUtilities.obj  $(OUTDIR)\UbAccessor.obj $(OUTDIR)\Sampler.obj $(OUTDIR)\half.obj $(OUTDIR)\ScreenQuad.obj $(OUTDIR)\Sync.obj $(OUTDIR)\Query.obj $(OUTDIR)\TransformFeedback4.obj $(OUTDIR)\Log.obj $(OUTDIR)\Pipeline.obj
+WRAP = $(OUTDIR)\Data.obj $(OUTDIR)\Program.obj $(OUTDIR)\VertexBuffer.obj $(OUTDIR)\Framebuffer.obj $(OUTDIR)\stringUtils.obj $(OUTDIR)\glUtilities.obj  $(OUTDIR)\UbAccessor.obj $(OUTDIR)\Sampler.obj $(OUTDIR)\half.obj $(OUTDIR)\ScreenQuad.obj $(OUTDIR)\Sync.obj $(OUTDIR)\Query.obj $(OUTDIR)\TransformFeedback4.obj $(OUTDIR)\Log.obj $(OUTDIR)\Pipeline.obj $(OUTDIR)\BasicMesh.obj $(OUTDIR)\GlutWindow.obj
 
 all: $(OUTDIR) steps3d.lib
 

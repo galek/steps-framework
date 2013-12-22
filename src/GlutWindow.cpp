@@ -12,7 +12,6 @@
 #endif
 
 #include	"GlutWindow.h"
-#include	<stdio.h>
 
 #ifndef GLUT_WHEEL_UP_BUTTON
 #define GLUT_WHEEL_UP_BUTTON 0x0003
@@ -55,13 +54,13 @@ static void	mouseClickFunc ( int button, int state, int x, int y )
 
     if ( button == GLUT_WHEEL_UP_BUTTON ) 
 	{
-        windows [glutGetWindow()] -> mouseWheel ( 1, 1, x, y );
+        windows [glutGetWindow()] -> mouseWheel ( 1/*WHEEL_UP*/, modifier, x, y );
         return;
     }
 
     if ( button == GLUT_WHEEL_DOWN_BUTTON ) 
 	{
-        windows [glutGetWindow()] -> mouseWheel ( -1, -1, x, y );
+        windows [glutGetWindow()] -> mouseWheel ( -1 /*WHEEL_DOWN*/, modifier, x, y );
         return;
     }
 
@@ -140,7 +139,7 @@ GlutWindow::GlutWindow ( int xo, int yo, int w, int h, const char * theCaption )
     glutSpecialFunc       ( specialKeyFunc         );
     glutSpecialUpFunc     ( specialKeyReleasedFunc );
 	glutMouseWheelFunc    ( wheelFunc   );
-//    glutIgnoreKeyRepeat   ( 1 );
+//    glutIgnoreKeyRepeat   ( 1 );			// ???
 	setTime               ();
 
 	if ( !GLEW_VERSION_3_3 )
