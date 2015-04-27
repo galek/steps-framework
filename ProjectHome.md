@@ -1,0 +1,1 @@
+Set of classes to ease cross-platform development of OpenGL applications
